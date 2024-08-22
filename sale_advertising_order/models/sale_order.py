@@ -918,7 +918,7 @@ class SaleOrderLine(models.Model):
         if comp_discount > 100.0:
             comp_discount = self.computed_discount = 100.0
         price = self.price_unit or 0.0
-        fraction_param = 1 # FIXME int(self.env['ir.config_parameter'].sudo().get_param('sale_advertising_order.fraction'))
+        fraction_param = int(self.env['ir.config_parameter'].sudo().get_param('sale_advertising_order.fraction'))
 
         if self.multi_line:
             clp = self.comb_list_price or 0.0
