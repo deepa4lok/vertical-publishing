@@ -65,6 +65,49 @@ class SaleOrder(models.Model):
     display_discount_to_customer = fields.Boolean("Display Discount", default=False) # TODO: take action later
 
 
+    #Overridden: SOT
+    type_id = fields.Many2one(
+        comodel_name="sale.order.type",
+        string="Type",
+        compute="_compute_sale_type_id",
+        store=True,
+        readonly=True,
+        states={"draft": [("readonly", False)],},
+        ondelete="restrict",
+        copy=True,
+        check_company=True, track_visibility='always'
+    )
+
+
+    @api.depends("partner_id", "company_id")
+    def _compute_sale_type_id(self):
+
+        AdsSOT = self.env.ref('sale_advertising_order.ads_sale_type').id
+        defSOT = self._context.get('default_type_id', False)
+
+        for record in self:
+            # Enforce
+            if record.advertising or (defSOT == AdsSOT):
+                sale_type = AdsSOT
+            else:
+                # Specific partner sale type value
+                sale_type = (
+                    record.partner_id.with_company(record.company_id).sale_type
+                    or record.partner_id.commercial_partner_id.with_company(
+                        record.company_id
+                    ).sale_type
+                )
+
+            # Default user sale type value
+            if not sale_type:
+                sale_type = record.default_get(["type_id"]).get("type_id", False)
+
+            # Get first sale type value
+            if not sale_type:
+                sale_type = record._default_type_id()
+            record.type_id = sale_type
+
+
     def _ctx_4_action_orders_advertising_smart_button(self):
         " Context to use both active & ref"
         ref = self.env.ref
