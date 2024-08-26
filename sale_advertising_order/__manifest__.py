@@ -22,7 +22,7 @@
 ##############################################################################
 {
     'name': 'Sale Advertising Order',
-    'version': '16.0.2.5',
+    'version': '16.0.2.6',
     'category': 'Sale',
     'description': """
 This module allows you to use Sales Management to run your advertising sales
@@ -36,7 +36,7 @@ This module allows you to use Sales Management to run your advertising sales
                 'sale', 'sale_order_type', 'partner_manual_rank',
                 'account', 'account_analytic_tag', 'partner_firstname',
                 'base_address_extended', 'report_xlsx_helper',
-                'account_payment_partner',
+                'account_payment_partner', 'calendar'
 
                 ],
     'data': [
