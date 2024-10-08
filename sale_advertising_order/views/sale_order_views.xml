@@ -259,7 +259,7 @@
                             type="object" states="submitted"
 							groups="sale_advertising_order.group_ads_sales_manager"/>
             </xpath>
-            <xpath expr="//button[@name='action_cancel']" position="after">
+            <xpath expr="//button[@name='action_cancel']" position="replace">
                     <button name="action_cancel"  id="cancel" type="object" string="Cancel"
                                   states="draft,sent"
                                   groups="sale_advertising_order.group_ads_sales_user"/>
