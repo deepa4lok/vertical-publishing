@@ -86,17 +86,19 @@ class SaleOrder(models.Model):
         defSOT = self._context.get('default_type_id', False)
 
         for record in self:
+            sale_type = False
+
             # Enforce
             if record.advertising or (defSOT == AdsSOT):
                 sale_type = AdsSOT
-            else:
-                # Specific partner sale type value
-                sale_type = (
-                    record.partner_id.with_company(record.company_id).sale_type
-                    or record.partner_id.commercial_partner_id.with_company(
-                        record.company_id
-                    ).sale_type
-                )
+            # else:
+            #     # Specific partner sale type value
+            #     sale_type = (
+            #         record.partner_id.with_company(record.company_id).sale_type
+            #         or record.partner_id.commercial_partner_id.with_company(
+            #             record.company_id
+            #         ).sale_type
+            #     )
 
             # Default user sale type value
             if not sale_type:
