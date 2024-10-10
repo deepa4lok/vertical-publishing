@@ -270,6 +270,15 @@
                              states="sale"
                              groups="sale_advertising_order.group_ads_traffic_user"/>
             </xpath>
+
+            <xpath expr="//button[@name='action_confirm']" position="replace"/>
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+                <button name="action_confirm" string="Confirm Sale" data-hotkey="v"
+                            states="approved1,sent" context="{'validate_analytic': True}"
+                            class="btn-primary o_sale_confirm"
+                            groups="sale_advertising_order.group_ads_traffic_user" type="object" />
+            </xpath>
+
             <xpath expr="//field[@name='tag_ids']" position="after">
                 <field name="advertising" invisible="1"/>
                 <field name="display_discount_to_customer"/>

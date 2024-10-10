@@ -24,9 +24,9 @@
                     <button type="object" name="open_sale_order" icon="fa-external-link" string="Open SO" class="oe_link btn-link"
                             attrs="{'invisible': [('sale_order_id', '=', False)]}"/>
                 </xpath>
-<!--                <xpath expr="//sheet/notebook/page/field[@name='invoice_line_ids']/tree/field[@name='name']" position="after">-->
-<!--                    <field name="ad_number" optional="hide"/> FIXME: display needed?-->
-<!--                </xpath>-->
+                <xpath expr="//sheet/notebook/page/field[@name='invoice_line_ids']/tree/field[@name='name']" position="after">
+                    <field name="ad_number" optional="hide"/>
+                </xpath>
                 <xpath expr="//sheet/notebook/page/field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="after">
                     <field name="subtotal_before_agency_disc" optional="hide"/>
                 </xpath>

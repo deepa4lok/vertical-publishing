@@ -22,7 +22,7 @@
 ##############################################################################
 {
     'name': 'Sale Advertising Order',
-    'version': '16.0.3.1',
+    'version': '16.0.3.2',
     'category': 'Sale',
     'description': """
 This module allows you to use Sales Management to run your advertising sales
@@ -43,6 +43,7 @@ This module allows you to use Sales Management to run your advertising sales
             "data/product_data.xml",
             "data/sale_order_type.xml",
             "data/config_data.xml",
+            "data/mail_template_data.xml",
 
             "security/security.xml",
             "security/ir.model.access.csv",

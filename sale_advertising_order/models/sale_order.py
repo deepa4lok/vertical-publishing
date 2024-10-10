@@ -1124,7 +1124,7 @@ class SaleOrderLine(models.Model):
             # res['analytic_account_id'] = self.adv_issue.analytic_account_id.id #FIXME
             res['so_line_id'] = self.id
             res['price_unit'] = self.actual_unit_price
-            # res['ad_number'] = self.ad_number
+            res['ad_number'] = self.ad_number
             res['computed_discount'] = self.computed_discount # FIXME: Need this?
         else:
             res['so_line_id'] = self.id
