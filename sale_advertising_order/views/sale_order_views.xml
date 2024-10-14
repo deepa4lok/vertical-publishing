@@ -295,7 +295,7 @@
 <!--                       domain="pub_cust_domain" FIXME-->
             </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="customer_contact" required="False"
+                <field name="customer_contact" required="False" groups="sale_advertising_order.group_ads_contact_person"
                        context="{'default_parent_id': partner_id, 'show_email': 1, 'res_partner_search_mode': 'customer'}"
                        domain="[('is_company', '=', False),('parent_id', '=', partner_id),('type', '=', 'contact')]"
                        options='{"always_reload": True, "no_create_edit": True}'
