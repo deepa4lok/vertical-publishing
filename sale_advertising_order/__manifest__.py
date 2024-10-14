@@ -22,7 +22,7 @@
 ##############################################################################
 {
     'name': 'Sale Advertising Order',
-    'version': '16.0.3.2',
+    'version': '16.0.3.3',
     'category': 'Sale',
     'description': """
 This module allows you to use Sales Management to run your advertising sales

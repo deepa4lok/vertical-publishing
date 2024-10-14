@@ -60,7 +60,7 @@ class SaleOrder(models.Model):
     advertising = fields.Boolean('Advertising', default=False)
 
     agency_is_publish = fields.Boolean('Agency is Publishing Customer?', default=False)
-    partner_acc_mgr = fields.Many2one(related='published_customer.user_id', relation='res.users',
+    partner_acc_mgr = fields.Many2one(related='published_customer.user_id',
                                       string='Account Manager', store=True, readonly=True)
     display_discount_to_customer = fields.Boolean("Display Discount", default=False) # TODO: take action later
 
@@ -75,7 +75,7 @@ class SaleOrder(models.Model):
         states={"draft": [("readonly", False)],},
         ondelete="restrict",
         copy=True,
-        check_company=True, track_visibility='always'
+        check_company=True, tracking=True
     )
 
 

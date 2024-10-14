@@ -52,9 +52,9 @@
                     <field name="sale_order_id" widget="many2one_clickable"
                            context="{'form_view_ref': 'sale_advertising_order.sale_order_view_form_sao'}"/>
                 </field>
-<!--                <field name="name" position="after">-->
-<!--                    <field name="ad_number" optional="hide"/> FIXME: display needed?-->
-<!--                </field>-->
+                <field name="name" position="after">
+                    <field name="ad_number" optional="hide"/>
+                </field>
                 <field name="credit" position="after">
                     <field name="subtotal_before_agency_disc" optional="hide"/>
                 </field>

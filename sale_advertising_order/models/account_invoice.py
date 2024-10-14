@@ -49,7 +49,7 @@ class InvoiceLine(models.Model):
     computed_discount = fields.Float(string='Discount' ) #FIXME: seems not needed
     subtotal_before_agency_disc = fields.Float(compute='_compute_price', string='SBAD', readonly=True )
     ad_number = fields.Char(string='External Reference', size=50)
-    sale_order_id = fields.Many2one(related='so_line_id.order_id', relation='sale.order', store=True, string='Order Nr.')
+    sale_order_id = fields.Many2one(related='so_line_id.order_id', store=True, string='Order Nr.')
     ad = fields.Boolean(related='so_line_id.advertising', string='Ad', store=True,
                                 help="It indicates that the invoice line is from an Advertising Invoice.")
 
