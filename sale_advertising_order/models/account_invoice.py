@@ -16,6 +16,7 @@ class Invoice(models.Model):
                         help="It indicates that the invoice is an Advertising Invoice.", store=True)
     published_customer = fields.Many2one('res.partner', 'Advertiser', domain=[('is_customer', '=', True)])
     invoice_description = fields.Text('Description')
+    customer_contact = fields.Many2one('res.partner', 'Contact Person', domain=[('is_customer', '=', True)])
 
 
     def _get_name_invoice_report(self):

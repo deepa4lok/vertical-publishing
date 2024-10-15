@@ -171,18 +171,31 @@ class SaleOrder(models.Model):
 
     @api.onchange('partner_id')
     def _onchange_partner2(self):
-        contacts = self.partner_id.child_ids.filtered(lambda x: x.id != self.partner_id.id and x.type == 'contact')
-        self.customer_contact = contacts and contacts[0].id or False
+        if not self.partner_id:
+            self.customer_contact = False
 
-        if self.order_line:
+        if self.partner_id.type == 'contact':
+            contact = self.env['res.partner'].search([('is_company','=', False),('type','=', 'contact'),('parent_id','=', self.partner_id.id)])
+            if len(contact) >=1:
+                contact_id = contact[0]
+            else:
+                contact_id = False
+        else:
+            addr = self.partner_id.address_get(['delivery', 'invoice'])
+            contact_id = addr['contact']
+        if not self.partner_id.is_company and not self.partner_id.parent_id:
+            contact_id = self.partner_id
+
+        self.customer_contact = contact_id
+
+        # Existing SAO orderlines
+        if self.order_line and self.advertising:
             warning = {'title': _('Warning'),
                        'message': _('Changing the Customer can have a change in Agency Discount as a result.'
                                     'This change will only show after saving the order!'
                                     'Before saving the order the order lines and the total amounts may therefor'
                                     'show wrong values.')}
             return {'warning': warning}
-
-
 
     def action_submit(self):
         orders = self.filtered(lambda s: s.state in ['draft'])
@@ -277,7 +290,10 @@ class SaleOrder(models.Model):
         """
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
         if self.advertising:
-            invoice_vals['published_customer'] = self.published_customer.id,
+            invoice_vals['published_customer'] = self.published_customer.id
+
+        # Generic
+        invoice_vals['customer_contact'] = self.customer_contact.id
         return invoice_vals
 
 

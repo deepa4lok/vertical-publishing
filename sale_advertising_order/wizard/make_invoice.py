@@ -43,6 +43,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
         partner = keydict['partner_id']
         published_customer = keydict['published_customer']
         payment_mode = keydict['payment_mode_id']
+        customer_contact = keydict['customer_contact_id']
         # journal_id = self.env['account.move'].with_context(default_move_type='out_invoice')._get_default_journal().id
         # if not journal_id:
         #     raise UserError(_('Please define an accounting sale journal for this company.'))
@@ -52,6 +53,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
             'move_type': 'out_invoice',
             'partner_id': partner.id,
             'published_customer': published_customer.id,
+            'customer_contact': customer_contact,
             'invoice_line_ids': lines['lines'],
             'narration': lines['name'],
             'invoice_payment_term_id': partner.property_payment_term_id.id or False,
@@ -94,6 +96,10 @@ class AdOrderLineMakeInvoice(models.TransientModel):
 
     def modify_key(self, key, keydict, line):
         """Hook method to modify grouping key of advertising invoicing"""
+        key = list(key)
+        key.append(line.order_id.customer_contact)
+        key = tuple(key)
+        keydict['customer_contact_id'] = line.order_id.customer_contact.id
         return key, keydict
 
 
