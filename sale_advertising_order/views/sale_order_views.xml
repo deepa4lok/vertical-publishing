@@ -286,13 +286,13 @@
             </xpath>
 
             <xpath expr="//field[@name='partner_id']" position="before">
-                <field name="pub_cust_domain" invisible="1"/>
+<!--                <field name="pub_cust_domain" invisible="1"/> deprecated -->
                 <field name="agency_is_publish" />
                 <field name="published_customer"
                        context="{'tree_view_ref': 'sale_advertising_order.view_partner_tree_nsm_crm', 'res_partner_search_mode': 'customer'}"
                        attrs="{'readonly':['|',('state','in', ['cancel','done']),('state','in', ['sale'])]}"
-                       required="True" options="{'no_create':True}"/>
-<!--                       domain="pub_cust_domain" FIXME-->
+                       required="True" options="{'no_create':True}"
+                       domain="[('is_ad_agency', '=', agency_is_publish), ('parent_id', '=', False), ('is_customer', '=', True)]" />
             </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="customer_contact" required="False" groups="sale_advertising_order.group_ads_contact_person"
@@ -344,6 +344,7 @@
                 <field name="name" string="Order Number" decoration-bf="1"/>
                 <field name="date_order" widget="date" optional="show"/>
 <!--                    <field name="opportunity_subject" string="Subject"/>-->
+<!--      deprecated          <field name="pub_cust_domain" invisible="1"/>-->
                 <field name="published_customer"/>
                 <field name="advertising_agency"/>
 <!--                    <field name="partner_acc_mgr"/>-->

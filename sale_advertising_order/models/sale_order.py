@@ -21,20 +21,21 @@ class SaleOrder(models.Model):
     _inherit = ["sale.order"]
 
 
-    @api.depends('agency_is_publish')
-    def _compute_pub_cust_domain(self):
-        """
-        Compute the domain for the published_customer domain.
-        """
-        for rec in self:
-            if rec.agency_is_publish:
-                rec.pub_cust_domain = json.dumps(
-                    [('is_ad_agency', '=', True), ('parent_id', '=', False), ('is_customer', '=', True)]
-                )
-            else:
-                rec.pub_cust_domain = json.dumps(
-                    [('is_ad_agency', '!=', True),('parent_id', '=', False), ('is_customer', '=', True)]
-                )
+    # @api.depends('agency_is_publish')
+    # def _compute_pub_cust_domain(self):
+    #     """
+    #     Compute the domain for the published_customer domain.
+    #     """
+    #     for rec in self:
+    #         rec.pub_cust_domain = [('is_ad_agency', '=', True)] #json.dumps([('is_ad_agency', '=', True)])
+    #         # if rec.agency_is_publish:
+    #         #     rec.pub_cust_domain = json.dumps(
+    #         #         [('is_ad_agency', '=', True), ('parent_id', '=', False), ('is_customer', '=', True)]
+    #         #     )
+    #         # else:
+    #         #     rec.pub_cust_domain = json.dumps(
+    #         #         [('is_ad_agency', '!=', True),('parent_id', '=', False), ('is_customer', '=', True)]
+    #         #     )
 
     # backported:
     amount_by_group = fields.Binary(string="Tax amount by group", compute='_amount_by_group',
@@ -52,10 +53,10 @@ class SaleOrder(models.Model):
         ])
 
     # new:
-    published_customer = fields.Many2one('res.partner', 'Advertiser', domain=[('is_customer', '=', True)])
+    # pub_cust_domain = fields.Char(compute=_compute_pub_cust_domain, readonly=True, store=False)  -- deprecated
+    published_customer = fields.Many2one('res.partner', 'Advertiser', domain=[('parent_id', '=', False), ('is_customer', '=', True)])
     advertising_agency = fields.Many2one('res.partner', 'Advertising Agency', domain=[('is_customer', '=', True)])
     nett_nett = fields.Boolean('Netto Netto Deal', default=False)
-    pub_cust_domain = fields.Char(compute=_compute_pub_cust_domain, readonly=True, store=False)
     customer_contact = fields.Many2one('res.partner', 'Contact Person', domain=[('is_customer', '=', True)])
     advertising = fields.Boolean('Advertising', default=False)
 
@@ -162,6 +163,12 @@ class SaleOrder(models.Model):
         active_id = unquote("active_id")
 
         return [('type_id','=', ref('sale_advertising_order.ads_sale_type').id), ('opportunity_id', '=', active_id), ('advertising','=',True)]
+
+
+    @api.onchange('agency_is_publish')
+    def _onchange_agencyIspublish(self):
+        if self.agency_is_publish:
+            self.published_customer = False
 
 
     @api.onchange('advertising_agency')
