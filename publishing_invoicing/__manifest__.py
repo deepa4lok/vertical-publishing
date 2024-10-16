@@ -14,11 +14,11 @@
     The invoicing_property object has a one2many relation with res.partner, and a one2many relation with sale.order.
         
     """,
-    'author': "Magnus",
+    'author': "Magnus, Deepa (TOSC)",
     'website': "http://www.magnus.nl",
 
     'category': 'Sale',
-    'version': '16.0.5.2',
+    'version': '16.0.5.3',
 
     # any module necessary for this one to work correctly
     'depends': [ 'sale_advertising_order_package'
