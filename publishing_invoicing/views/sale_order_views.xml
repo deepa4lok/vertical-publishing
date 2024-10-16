@@ -80,9 +80,13 @@
             <field name="model">sale.order.line</field>
             <field name="inherit_id" ref="sale_advertising_order.view_adv_order_line_tree" />
             <field name="arch" type="xml">
-                    <xpath expr="//field[@name='price_subtotal']" position="after">
-                        <field name="invoicing_property_id" invisible="0"/>
-                    </xpath>
+                <xpath expr="//field[@name='price_subtotal']" position="after">
+                    <field name="invoicing_property_id" invisible="0"/>
+                </xpath>
+
+                <xpath expr="//field[@name='to_date']" position="after">
+                  <field name="cutoff_date"/>
+                </xpath>
             </field>
         </record>
 
@@ -98,6 +102,11 @@
             <xpath expr="//field[@name='order_id']" position="after">
               <field name="invoicing_property_id"/>
             </xpath>
+
+            <xpath expr="//field[@name='issue_date']" position="after">
+              <field name="cutoff_date"/>
+            </xpath>
+
         </field>
     </record>
 </odoo>
