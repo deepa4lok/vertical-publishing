@@ -3202,3 +3202,9 @@ msgstr "of"
 #: model:product.attribute,name:sale_advertising_order.attribute_title
 msgid "title"
 msgstr "titel"
+
+#. module: sale_advertising_order
+#: code:addons/sale_advertising_order/models/sale_advertising.py:0
+#, python-format
+msgid "You are adding an advertising issue after deadline. Are you sure about this?"
+msgstr "Je boekt een editie in waarvan de deadline reeds verstreken is. Weet je het zeker?"
