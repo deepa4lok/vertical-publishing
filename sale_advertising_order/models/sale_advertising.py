@@ -1263,6 +1263,15 @@ class SaleOrderLine(models.Model):
         if len(self.adv_issue_ids) > 1 and not self.issue_product_ids:
             self.product_template_id = False
 
+        if self.env.user.has_group('sale_advertising_order.group_no_deadline_check'):
+            return {}
+        for adv_issue in self.adv_issue_ids:
+            if adv_issue.deadline and fields.Datetime.from_string(adv_issue.deadline) < datetime.now():
+                warning = {'title': _('Warning'),
+                           'message': _('You are adding an advertising issue after deadline. '
+                                        'Are you sure about this?')}
+                return {'warning': warning}
+
     # #added by sushma | deprecated -- deepa
     # @api.onchange('dateperiods')
     # def onchange_dateperiods(self):
