@@ -59,3 +59,8 @@ msgstr "Verkooporder"
 #: model:ir.model,name:sale_advertising_order_package.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Verkooporderregel"
+
+#. module: sale_advertising_order_package
+#: model_terms:ir.ui.view,arch_db:sale_advertising_order_package.report_saleorder_document_package
+msgid "<strong>Order Date:</strong>"
+msgstr "<strong>Orderdatum:</strong>"

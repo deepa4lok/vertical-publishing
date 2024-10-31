@@ -207,5 +207,9 @@
 			</field>
 		</record>
 
+		<record model="ir.ui.view" id="sale.product_template_form_view_sale_order_button">
+            <field name="groups_id" eval="[(4, ref('sale_advertising_order.group_ads_traffic_user'))]"/>
+		</record>
+
 	</data>
 </odoo>
