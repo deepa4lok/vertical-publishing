@@ -393,7 +393,7 @@ class SaleOrder(models.Model):
         AdsSOT = self.env.ref('sale_advertising_order.ads_sale_type').id
 
         # Operating Unit && Ads SOT:
-        if is_OU_installed and (self.order_id and self.order_id.type_id.id == AdsSOT):
+        if is_OU_installed and self.type_id.id == AdsSOT:
             subj = 'Advertising Sales Order - Send by email'
             if force_confirmation_template or (self.state == 'sale' and not self.env.context.get('proforma', False)):
                 subj = 'Advertising Sales Order - Confirmation Email'
