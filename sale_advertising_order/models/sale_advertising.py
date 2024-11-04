@@ -390,11 +390,13 @@ class SaleOrder(models.Model):
         is_OU_installed = self.env['ir.module.module'].sudo().search(
             [('state', '=', 'installed'), ('name', '=', 'sale_operating_unit')])
 
-        # Operating Unit:
-        if is_OU_installed:
-            subj = 'Advertising Sales Order: Send by email'
+        AdsSOT = self.env.ref('sale_advertising_order.ads_sale_type').id
+
+        # Operating Unit && Ads SOT:
+        if is_OU_installed and (self.order_id and self.order_id.type_id.id == AdsSOT):
+            subj = 'Advertising Sales Order - Send by email'
             if force_confirmation_template or (self.state == 'sale' and not self.env.context.get('proforma', False)):
-                subj = 'Advertising Sales Order: Confirmation Email'
+                subj = 'Advertising Sales Order - Confirmation Email'
 
             template_id = self.env['mail.template'].sudo().search(
                 [('model', '=', self._name), ('operating_unit_id', '=', self.operating_unit_id.id),
