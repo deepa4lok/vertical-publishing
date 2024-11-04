@@ -4,7 +4,7 @@
 
         <!--Email template -->
         <record id="email_template_edi_sale_adver" model="mail.template">
-            <field name="name">Advertising Sales Order: Send by email</field>
+            <field name="name">Advertising Sales Order - Send by email</field>
             <field name="email_from">${(object.user_id.email and '%s &lt;%s&gt;' % (object.user_id.name, object.user_id.email) or '')|safe}</field>
             <field name="subject">${object.company_id.name} ${object.state in ('draft', 'sent') and 'Quotation' or 'Order'} (Ref ${object.name or 'n/a' })</field>
             <field name="partner_to">${(object.customer_contact.id if object.customer_contact.email else object.partner_id.id|safe)}</field>
