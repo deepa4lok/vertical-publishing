@@ -1270,7 +1270,7 @@ class SaleOrderLine(models.Model):
         for adv_issue in self.adv_issue_ids:
             if adv_issue.deadline and fields.Datetime.from_string(adv_issue.deadline) < datetime.now():
                 warning = {'title': _('Warning'),
-                           'message': _('You are adding an advertising issue after deadline. '
+                           'message': _('You are adding an advertising issue after deadline. '
                                         'Are you sure about this?')}
                 return {'warning': warning}
 
@@ -1310,6 +1310,9 @@ class SaleOrderLine(models.Model):
             res['ad_number'] = self.ad_number
             res['computed_discount'] = self.computed_discount
             res['opportunity_subject'] = self.order_id.opportunity_subject
+            res['from_date'] = self.from_date
+            res['to_date'] = self.to_date
+            res['issue_date'] = self.issue_date
         else:
             res['so_line_id'] = self.id
             
