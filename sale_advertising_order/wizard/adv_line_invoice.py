@@ -289,8 +289,10 @@ class AdOrderLineMakeInvoice(models.TransientModel):
             'computed_discount': line.computed_discount,
             'ad_number': line.ad_number,
             'opportunity_subject': line.order_id.opportunity_subject,
-            'sale_line_ids': [(6, 0, [line.id])]
+            'sale_line_ids': [(6, 0, [line.id])],
+            'from_date' : line.from_date,
+            'to_date' : line.to_date,
+            'issue_date' : line.issue_date,
         }
         return res
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -383,6 +383,34 @@ class SaleOrder(models.Model):
         return True
 
 
+    def _find_ads_mail_template(self, force_confirmation_template=False):
+        self.ensure_one()
+        template_id = False
+
+        is_OU_installed = self.env['ir.module.module'].sudo().search(
+            [('state', '=', 'installed'), ('name', '=', 'sale_operating_unit')])
+
+        AdsSOT = self.env.ref('sale_advertising_order.ads_sale_type').id
+
+        # Operating Unit && Ads SOT:
+        if is_OU_installed and self.type_id.id == AdsSOT:
+            subj = 'Advertising Sales Order - Send by email'
+            if force_confirmation_template or (self.state == 'sale' and not self.env.context.get('proforma', False)):
+                subj = 'Advertising Sales Order - Confirmation Email'
+
+            template_id = self.env['mail.template'].sudo().search(
+                [('model', '=', self._name), ('operating_unit_id', '=', self.operating_unit_id.id),
+                 ('name', 'ilike', '%' + subj + '%')
+                 ], limit=1)
+
+            template_id = template_id and template_id[0].id or False
+
+        # If None: default template
+        if not template_id:
+            template_id = self.env['ir.model.data'].xmlid_to_res_id('sale_advertising_order.email_template_edi_sale_adver', raise_if_not_found=False)
+
+        return template_id
+
     def action_quotation_send(self):
         '''
         This function opens a window to compose an email, with the edi sale template message loaded by default
@@ -399,13 +427,15 @@ class SaleOrder(models.Model):
             if not olines == []:
                 self.env['sale.order.line.create.multi.lines'].create_multi_from_order_lines(orderlines=olines,
                                                                                              orders=self)
-        # self.write({'state': 'sent'}) #Task: SMA-1 Action button for state [sent] in sale.order
-
         ir_model_data = self.env['ir.model.data']
-        try:
-            template_id = ir_model_data.get_object_reference('sale_advertising_order', 'email_template_edi_sale_adver')[1]
-        except ValueError:
-            template_id = False
+
+        # try:
+        #     template_id = ir_model_data.get_object_reference('sale_advertising_order', 'email_template_edi_sale_adver')[1]
+        # except ValueError:
+        #     template_id = False
+
+        template_id = self._find_ads_mail_template()
+
         try:
             compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
         except ValueError:
@@ -1240,7 +1270,7 @@ class SaleOrderLine(models.Model):
         for adv_issue in self.adv_issue_ids:
             if adv_issue.deadline and fields.Datetime.from_string(adv_issue.deadline) < datetime.now():
                 warning = {'title': _('Warning'),
-                           'message': _('You are adding an advertising issue after deadline. '
+                           'message': _('You are adding an advertising issue after deadline. '
                                         'Are you sure about this?')}
                 return {'warning': warning}
 
@@ -1280,6 +1310,9 @@ class SaleOrderLine(models.Model):
             res['ad_number'] = self.ad_number
             res['computed_discount'] = self.computed_discount
             res['opportunity_subject'] = self.order_id.opportunity_subject
+            res['from_date'] = self.from_date
+            res['to_date'] = self.to_date
+            res['issue_date'] = self.issue_date
         else:
             res['so_line_id'] = self.id
             

@@ -75,6 +75,12 @@ class InvoiceLine(models.Model):
     ad = fields.Boolean(related='so_line_id.advertising', string='Ad', store=True,
                                 help="It indicates that the invoice line is from an Advertising Invoice.")
 
+    # Report: retain initial
+    from_date = fields.Date('Start of Validity')
+    to_date = fields.Date('End of Validity')
+    issue_date = fields.Date('Issue Date')
+
+
     
     def open_sale_order(self):
         view_id = self.env.ref('sale_advertising_order.view_order_form_advertising').id if self.sale_order_id.advertising else self.env.ref('sale.view_order_form').id

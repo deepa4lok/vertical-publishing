@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, api, fields, _
-from odoo.exceptions import UserError
+from datetime import datetime
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -24,7 +24,9 @@ class UpdateSOL(models.TransientModel):
         result = super(UpdateSOL, self).default_get(fields)
         if self._context.get('active_model') and self._context.get('active_ids') and self._context.get('active_model') == 'sale.advertising.issue':
             AdIssue = self.env['sale.advertising.issue'].browse(self._context.get('active_id'))
-            SOL = self.env['sale.order.line'].search([('invoice_status', '!=', 'invoiced'),
+            # SOL = self.env['sale.order.line'].search([('invoice_status', '!=', 'invoiced'),
+            #                                           ('adv_issue', '=', AdIssue.id)])
+            SOL = self.env['sale.order.line'].search([('issue_date', '>=', datetime.now().strftime('%Y-%m-%d')),
                                                       ('adv_issue', '=', AdIssue.id)])
 
             result.update({'issue_id': AdIssue.id, 'line_ids': [(6,0, SOL.ids)], 'issue_date': AdIssue.issue_date})
