@@ -211,5 +211,16 @@
             <field name="groups_id" eval="[(4, ref('sale_advertising_order.group_ads_traffic_user'))]"/>
 		</record>
 
+		<record id="product_template_view_form_inherit_stock_advertising" model="ir.ui.view">
+            <field name="name">product.template.advertising.inherit.form</field>
+            <field name="inherit_id" ref="sale_stock.product_template_view_form_inherit_stock"/>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+				<button name="action_view_sales" position="attributes">
+					<attribute name="groups">sales_team.group_sale_salesman,sale_advertising_order.group_ads_traffic_user</attribute>
+				</button>
+            </field>
+        </record>
+
 	</data>
 </odoo>
