@@ -51,6 +51,7 @@ This module allows you to use Sales Management to run your advertising sales
             "report/invoice_report_template.xml",
             "report/sale_report_template.xml",
             "report/proof_number_delivery_list_xslx.xml",
+            "report/report_indeellijst_list_views.xml",
             "wizard/make_invoice_views.xml",
             "wizard/update_order_line_view.xml",
 
