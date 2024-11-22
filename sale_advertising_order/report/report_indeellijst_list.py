@@ -19,15 +19,20 @@ class IndeellijstListReport(models.AbstractModel):
             if sol.product_uom_qty > 1:
                 pro_name += '('+str(int(sol.product_uom_qty)) + 'p)'
             sline.append(sol.order_advertiser_id.name)
+            sline.append(sol.ad_number)
             sline.append(sol.order_id.name)
             sline.append(sol.order_id.user_id.name)
             sline.append(sol.order_id.id)
+            sline.append(sol.material_id)
+
             sline.append(pro_name)
-            ref = sol.page_reference or ''
+            ref = ''
+            if sol.page_reference:
+                ref += 'Page Reference: ' + sol.page_reference + '\n'
             if sol.layout_remark:
-                ref += '\n'+sol.layout_remark or ''
+                ref += 'Layout Remarks: ' + sol.layout_remark + '\n'
             if sol.name:
-                ref += '\n'+sol.name or ''
+                ref += 'Description: ' + sol.name
             sline.append(ref)
             sline.append(', '.join((map(lambda l: l.name, sol.analytic_tag_ids))))
             return sline
@@ -73,7 +78,7 @@ class IndeellijstListReport(models.AbstractModel):
         sheet.write(row, 1, issue_date, date_style)
         row += 2
 
-        ad_class_header = ['Adverteerder', 'Sale Order', 'Salesperson', 'Order ID', 'Product', 'Opmerkingen', 'Paginasoort']
+        ad_class_header = ['Adverteerder', 'External Reference', 'Sale Order', 'Salesperson', 'Order ID', 'Material ID', 'Product', 'Opmerkingen', 'Paginasoort']
 
         for rdata in orderByAdClass:
             ad_class_id = rdata['ad_class'][0]
