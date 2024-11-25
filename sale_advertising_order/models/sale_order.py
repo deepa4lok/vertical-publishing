@@ -605,6 +605,13 @@ class SaleOrderLine(models.Model):
 
             line.domain4prod_ids = [(6, 0, ptmplIDs)]
 
+
+    @api.depends('recurring_id', 'product_id')
+    def _get_materialID(self):
+        for line in self:
+            line.material_id = line.recurring_id.id if line.recurring_id else line.id
+
+
     mig_remark = fields.Text('Migration Remark')
     layout_remark = fields.Text('Material Remark')
     page_class_domain = fields.Char(compute='_compute_tags_domain', readonly=True, store=False,) #FIXME ?
@@ -673,6 +680,10 @@ class SaleOrderLine(models.Model):
     product_width = fields.Float(compute='_get_product_data', readonly=True, store=True, string="Width")
     product_height = fields.Float(compute='_get_product_data', readonly=True, store=True, string="Height")
 
+    recurring = fields.Boolean('Recurring Advertisement')
+    material_id = fields.Integer(compute='_get_materialID', readonly=True, store=True, string="Material ID")
+    recurring_id = fields.Many2one('sale.order.line',string='Recurring Order Line',)
+
 
     @api.model
     def default_get(self, fields_list):
@@ -684,6 +695,30 @@ class SaleOrderLine(models.Model):
         result.update({'proof_number_adv_customer': False})
         result.update({'proof_number_amt_adv_customer': 0})
         return result
+
+    def name_get(self):
+        if self._name == 'sale.order' or not 'show_material_ref' in self.env.context:
+            return super(SaleOrderLine, self).name_get()
+        result = []
+        for so_line in self.sudo():
+            if so_line.material_id:
+                name = '%s - %s - %s' % (
+                so_line.order_id.name, so_line.material_id,so_line.product_id.name)
+
+                title_lists = so_line.product_id.mapped('product_template_attribute_value_ids')
+                if title_lists:
+                    titles =', '.join((map(lambda l: l.name, title_lists)))
+                    name += '(%s)'%titles
+                if so_line.order_partner_id.ref:
+                    name = '%s (%s)' % (name, so_line.order_partner_id.ref)
+            else:
+                name = '%s - %s' % (
+                so_line.order_id.name, so_line.product_id.name)
+                if so_line.order_partner_id.ref:
+                    name = '%s (%s)' % (name, so_line.order_partner_id.ref)
+            result.append((so_line.id, name))
+        return result
+
 
     @api.onchange('medium')
     def onchange_medium(self):
@@ -1101,6 +1136,12 @@ class SaleOrderLine(models.Model):
     def onchange_proof_number_payer_id(self):
         'Migration: from nsm_sale_advertising_order'
         self.proof_number_amt_payer = 1 if self.proof_number_payer_id else 0
+
+    #reset material_id as original ID
+    @api.onchange('recurring')
+    def _onchange_recurring(self):
+        if not self.recurring and self.recurring_id:
+            self.recurring_id = False
 
     def cancel_line(self):
         'Allow cancel of SOL by resetting qty to Zero'

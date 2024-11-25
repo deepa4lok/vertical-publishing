@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//div[hasclass('settings')]" position="inside">
                     <div class="app_settings_block" data-string="sao"
-                         string="Sale Advertising Order"
+                         string="Advertising Sales"
                          data-key="sale_advertising_order"
                          groups="sale_advertising_order.group_ads_traffic_user">
                         <h2>Sale Advertising Order</h2>
