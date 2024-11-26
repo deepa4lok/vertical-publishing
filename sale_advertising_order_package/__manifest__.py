@@ -8,8 +8,8 @@
     'description': """
         
     """,
-    'author': 'Deepa, Magnus - Willem Hulshof',
-    'website': 'http://www.magnus.nl',
+    'author': "Deepa Venkatesh (DK), " "Willem Hulsof, The Open Source Company (TOSC)",
+    'website': 'https://www.tosc.nl',
 
     'category': 'Sale',
     'version': '16.0.4.6',
