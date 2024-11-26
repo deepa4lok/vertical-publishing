@@ -355,56 +355,78 @@ class SaleOrder(models.Model):
                 len(res),
             ) for l in res]
 
-
-    def action_quotation_send(self):
-        '''
-        This function opens a window to compose an email, with the edi sale template message
-        loaded by default
-        '''
-        # FIXME: Fintune
-
+    def _find_mail_template(self):
         self.ensure_one()
         if not self.advertising:
             return super(SaleOrder, self).action_quotation_send()
 
-        # FIXME: Multi line split: seems unnecessary here!
-        # elif self.state in ['draft', 'approved1', 'submitted']:
-        #     olines = []
-        #     for line in self.order_line:
-        #         if line.multi_line:
-        #             olines.append(line.id)
-        #     if not olines == []:
-        #         self.env['sale.order.line.create.multi.lines'].create_multi_from_order_lines(orderlines=olines,
-        #                                                                                      orders=self)
-        ir_model_data = self.env['ir.model.data']
-        try:
-            template_id = ir_model_data.get_object_reference('sale_advertising_order', 'email_template_edi_sale_adver')[1]
-        except ValueError:
-            template_id = False
-        try:
-            compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
-        except ValueError:
-            compose_form_id = False
-        ctx = dict()
-        ctx.update({
-            'default_model': 'sale.order',
-            'default_res_id': self.ids[0],
-            'default_use_template': bool(template_id),
-            'default_template_id': template_id,
-            'default_composition_mode': 'comment',
-            'mark_so_as_sent': True,
-            'custom_layout': "sale.mail_template_data_notification_email_sale_order"
-        })
-        return {
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'mail.compose.message',
-            'views': [(compose_form_id, 'form')],
-            'view_id': compose_form_id,
-            'target': 'new',
-            'context': ctx,
-        }
+        if self.env.context.get('proforma') or self.state not in ('sale', 'done'):
+            return self.env.ref('sale_advertising_order.email_template_edi_sale_ads', raise_if_not_found=False)
+        else:
+            return self._get_confirmation_template()
+
+
+    def _get_confirmation_template(self):
+        """ Get the mail template sent on SO confirmation (or for confirmed SO's).
+
+        :return: `mail.template` record or None if default template wasn't found
+        """
+        self.ensure_one()
+        if not self.advertising:
+            return super(SaleOrder, self)._get_confirmation_template()
+
+        return self.env.ref('sale_advertising_order.mail_template_sale_confirmation_ads', raise_if_not_found=False)
+
+
+    # def action_quotation_send(self):
+    #     '''
+    #     This function opens a window to compose an email, with the edi sale template message
+    #     loaded by default
+    #     '''
+    #     # FIXME: Fintune
+    #
+    #     self.ensure_one()
+    #     if not self.advertising:
+    #         return super(SaleOrder, self).action_quotation_send()
+    #
+    #     # FIXME: Multi line split: seems unnecessary here!
+    #     # elif self.state in ['draft', 'approved1', 'submitted']:
+    #     #     olines = []
+    #     #     for line in self.order_line:
+    #     #         if line.multi_line:
+    #     #             olines.append(line.id)
+    #     #     if not olines == []:
+    #     #         self.env['sale.order.line.create.multi.lines'].create_multi_from_order_lines(orderlines=olines,
+    #     #                                                                                      orders=self)
+    #     ir_model_data = self.env['ir.model.data']
+    #     try:
+    #         template_id = ir_model_data.get_object_reference('sale_advertising_order', 'email_template_edi_sale_adver')[1]
+    #     except ValueError:
+    #         template_id = False
+    #     try:
+    #         compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
+    #     except ValueError:
+    #         compose_form_id = False
+    #     ctx = dict()
+    #     ctx.update({
+    #         'default_model': 'sale.order',
+    #         'default_res_id': self.ids[0],
+    #         'default_use_template': bool(template_id),
+    #         'default_template_id': template_id,
+    #         'default_composition_mode': 'comment',
+    #         'mark_so_as_sent': True,
+    #         'custom_layout': "sale.mail_template_data_notification_email_sale_order"
+    #     })
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_model': 'mail.compose.message',
+    #         'views': [(compose_form_id, 'form')],
+    #         'view_id': compose_form_id,
+    #         'target': 'new',
+    #         'context': ctx,
+    #     }
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
