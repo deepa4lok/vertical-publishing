@@ -30,7 +30,7 @@ This module allows you to use Sales Management to run your advertising sales
 
 
     """,
-    'author': 'Deepa, Willem Hulshof, The Open Source Company (TOSC)',
+    'author': "Deepa Venkatesh (DK), " "Willem Hulsof, The Open Source Company (TOSC)",
     'website': 'http://www.tosc.nl',
     'depends': [
                 'sale', 'sale_order_type', 'partner_manual_rank',

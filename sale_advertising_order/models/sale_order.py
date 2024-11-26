@@ -1200,6 +1200,9 @@ class SaleOrderLine(models.Model):
             res['price_unit'] = self.actual_unit_price
             res['ad_number'] = self.ad_number
             res['computed_discount'] = self.computed_discount # FIXME: Need this?
+            res['from_date'] = self.from_date
+            res['to_date'] = self.to_date
+            res['issue_date'] = self.issue_date
         else:
             res['so_line_id'] = self.id
 

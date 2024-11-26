@@ -30,6 +30,9 @@
                 </xpath>
                 <xpath expr="//sheet/notebook/page/field[@name='invoice_line_ids']/tree/field[@name='name']" position="after">
                     <field name="ad_number" optional="hide"/>
+                    <field name="issue_date" optional="hide"/>
+                    <field name="from_date" optional="hide"/>
+                    <field name="to_date" optional="hide"/>
                 </xpath>
                 <xpath expr="//sheet/notebook/page/field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="after">
                     <field name="subtotal_before_agency_disc" optional="hide"/>
@@ -58,6 +61,9 @@
                 </field>
                 <field name="name" position="after">
                     <field name="ad_number" optional="hide"/>
+                    <field name="issue_date" optional="hide"/>
+                    <field name="from_date" optional="hide"/>
+                    <field name="to_date" optional="hide"/>
                 </field>
                 <field name="credit" position="after">
                     <field name="subtotal_before_agency_disc" optional="hide"/>
