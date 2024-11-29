@@ -24,7 +24,7 @@ class AdOrderMakeInvoice(models.TransientModel):
         ctx = context.copy()
         ctx['active_ids'] = lines.ids
         ctx['invoice_date'] = self.invoice_date
-        ctx['posting_date'] = self.posting_date
+        ctx['posting_date'] = self.posting_date and self.posting_date or self.invoice_date
         his_obj.with_context(ctx).make_invoices_from_lines()
         return True
 
@@ -91,6 +91,9 @@ class AdOrderLineMakeInvoice(models.TransientModel):
             inv_date = invoice_date_ctx
         if posting_date_ctx and not post_date:
             post_date = posting_date_ctx
+
+        if not post_date:
+            post_date = inv_date # Enforce Inv Date
         self.make_invoices_job_queue(inv_date, post_date, OrderLines)
         return "Lines dispatched."
 
