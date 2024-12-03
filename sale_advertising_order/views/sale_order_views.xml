@@ -145,10 +145,13 @@
                             groups="sale_advertising_order.group_ads_traffic_user"
                             attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
                         <field name="price_edit" invisible="1"/>
-                        <field name="price_unit" readonly="0" attrs="{'invisible': ['|',('multi_line','=', True),('price_edit','!=', True)]}"
+                        <field name="price_unit" readonly="0"  string="P.U (*)"
                                 widget="monetary" options="{'currency_field': 'currency_id'}" />
-                        <field name="price_unit_dummy" readonly="1" attrs="{'invisible': ['|',('multi_line','=', True),('price_edit','=', True)]}"
+<!--                        attrs="{'invisible': ['|',('multi_line','=', True),('price_edit','!=', True)]}"-->
+
+                        <field name="price_unit_dummy" readonly="1"  string="P.U.M (*)"
                                 widget="monetary" options="{'currency_field': 'currency_id'}" />
+<!--                        attrs="{'invisible': ['|',('multi_line','=', True),('price_edit','=', True)]}"-->
                         <field name="comb_list_price" readonly="True" attrs="{'invisible': [('multi_line','=', False)]}"
                                 widget="monetary" options="{'currency_field': 'currency_id'}" />
                         <field name="actual_unit_price" attrs="{'invisible': [('multi_line','=', True)]}" widget="monetary"

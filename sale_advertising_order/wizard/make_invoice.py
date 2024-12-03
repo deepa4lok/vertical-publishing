@@ -24,7 +24,7 @@ class AdOrderMakeInvoice(models.TransientModel):
         ctx = context.copy()
         ctx['active_ids'] = lines.ids
         ctx['invoice_date'] = self.invoice_date
-        ctx['posting_date'] = self.posting_date
+        ctx['posting_date'] = self.posting_date and self.posting_date or self.invoice_date
         his_obj.with_context(ctx).make_invoices_from_lines()
         return True
 
@@ -91,6 +91,9 @@ class AdOrderLineMakeInvoice(models.TransientModel):
             inv_date = invoice_date_ctx
         if posting_date_ctx and not post_date:
             post_date = posting_date_ctx
+
+        if not post_date:
+            post_date = inv_date # Enforce Inv Date
         self.make_invoices_job_queue(inv_date, post_date, OrderLines)
         return "Lines dispatched."
 
@@ -192,8 +195,10 @@ class AdOrderLineMakeInvoice(models.TransientModel):
             'analytic_tag_ids': [(6, 0, line.analytic_tag_ids.ids or [])],
             'so_line_id': line.id,
             # 'computed_discount': line.computed_discount, # FIXME?
-            'sale_line_ids': [(6, 0, [line.id])]
+            'sale_line_ids': [(6, 0, [line.id])],
+            'from_date': line.from_date,
+            'to_date': line.to_date,
+            'issue_date': line.issue_date,
         }
         return res
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
