@@ -207,7 +207,7 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="sale.product_template_form_view_sale_order_button">
+		<record model="ir.ui.view" id="stock.product_template_form_view_procurement_button">
             <field name="groups_id" eval="[(4, ref('sale_advertising_order.group_ads_traffic_user'))]"/>
 		</record>
 
