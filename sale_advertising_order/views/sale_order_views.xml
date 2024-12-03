@@ -298,7 +298,7 @@
 <!--                <field name="pub_cust_domain" invisible="1"/> deprecated -->
                 <field name="agency_is_publish" />
                 <field name="published_customer"
-                       context="{'tree_view_ref': 'sale_advertising_order.view_partner_tree_nsm_crm', 'res_partner_search_mode': 'customer'}"
+                       context="{'res_partner_search_mode': 'customer'}"
                        attrs="{'readonly':['|',('state','in', ['cancel','done']),('state','in', ['sale'])]}"
                        required="True" options="{'no_create':True}"
                        domain="[('is_ad_agency', '=', agency_is_publish), ('parent_id', '=', False), ('is_customer', '=', True)]" />
