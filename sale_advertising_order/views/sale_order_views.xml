@@ -313,6 +313,9 @@
                        domain="[('is_ad_agency','=', True),('is_customer', '=', True), ('is_company','=', True)]"
                        attrs="{'readonly':['|',('state','in', ['cancel','done']),('state','in', ['sale']),('invoice_status','not in','not invoiced')]}"
                        context="{'res_partner_search_mode': 'customer'}"/>
+                <field name="material_contact_person" domain="[('is_customer', '=', True),('is_company', '!=', True)]"
+                           context="{'search_default_parent_id': published_customer,'show_email': 1,
+                           'res_partner_search_mode': 'customer'}" options="{'no_create': True}"/>
             </xpath>
 
             <xpath expr="//field[@name='team_id']" position="after">

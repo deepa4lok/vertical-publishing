@@ -65,6 +65,9 @@ class SaleOrder(models.Model):
                                       string='Account Manager', store=True, readonly=True)
     display_discount_to_customer = fields.Boolean("Display Discount", default=False) # TODO: take action later
 
+    material_contact_person = fields.Many2one('res.partner', 'Material Contact Person',
+                                              domain=[('customer', '=', True)])
+
 
     #Overridden: SOT
     type_id = fields.Many2one(
