@@ -12,7 +12,7 @@
     'website': 'https://www.tosc.nl',
 
     'category': 'Sale',
-    'version': '16.0.4.6',
+    'version': '16.0.4.7',
     'depends': ['sale_advertising_order'],
     'data': [
         'reports/sale_report_template.xml',
