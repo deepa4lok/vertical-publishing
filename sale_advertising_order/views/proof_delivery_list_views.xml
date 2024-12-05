@@ -81,7 +81,7 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="nsm_proof_delivery_list_action">
+        <record model="ir.actions.act_window" id="proof_delivery_list_action">
 			<field name="name">Proof Number Delivery List</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">proof.number.delivery.list</field>
@@ -89,11 +89,11 @@
             <field name="search_view_id" ref="view_proof_number_delivery_list_filter"/>
 		</record>
 
-         <record id="nsm_proof_number_delivery_list_action_tree" model="ir.actions.act_window.view">
+         <record id="proof_number_delivery_list_action_tree" model="ir.actions.act_window.view">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="view_proof_number_delivery_list_tree"/>
-            <field name="act_window_id" ref="nsm_proof_delivery_list_action"/>
+            <field name="act_window_id" ref="proof_delivery_list_action"/>
         </record>
     </data>
 </odoo>

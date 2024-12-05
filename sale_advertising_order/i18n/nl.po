@@ -1658,7 +1658,7 @@ msgstr "Prijslijsten"
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.view_adv_order_line_form
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.view_sao_order_line_form
 msgid "Product"
-msgstr "Productsjabloon"
+msgstr "Product"
 
 #. module: sale_advertising_order
 #: model:ir.actions.act_window,name:sale_advertising_order.product_category_action_form_ads

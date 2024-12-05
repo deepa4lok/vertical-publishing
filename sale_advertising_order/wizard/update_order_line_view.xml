@@ -10,17 +10,18 @@
             <field name="model">update.order.line</field>
             <field name="arch" type="xml">
                 <form string="Update Sale Orders">
-                    <p class="oe_grey">
-                        Update the new Issue Date for the following Sale Order Line(s)
-                    </p>
+                    <div class="mb-3">
+                        <p class="oe_grey">
+                            Update the new Issue Date for the following Sale Order Line(s)
+                        </p>
+                    </div>
                     <group>
                         <field name='issue_id' invisible="1"/>
                         <field name='issue_date' readonly="1" force_save="1"/>
                     </group>
-                    <group>
-                        <field name="line_ids" nolabel="1"
-                               context="{'tree_view_ref': 'sale_advertising_order.view_adv_order_line_tree'}"/>
-                    </group>
+                    <field name="line_ids" nolabel="1"
+                           context="{'tree_view_ref': 'sale_advertising_order.view_adv_order_line_tree'}"/>
+
                     <footer>
                         <button string="Confirm" name="action_confirm" type="object" default_focus="1" class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel"/>
