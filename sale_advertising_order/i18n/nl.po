@@ -2230,6 +2230,14 @@ msgstr "XLSX rapport voor bewijsnummerlijst."
 
 #. module: sale_advertising_order
 #. odoo-python
+#: code:addons/sale_advertising_order/models/sale_order.py:0
+#, python-format
+msgid ""
+"You are adding an advertising issue after deadline. Are you sure about this?"
+msgstr "Je boekt een editie in waarvan de deadline reeds verstreken is. Weet je het zeker?"
+
+#. module: sale_advertising_order
+#. odoo-python
 #: code:addons/sale_advertising_order/models/issue.py:0
 #, python-format
 msgid "You can't select more than one medium."
