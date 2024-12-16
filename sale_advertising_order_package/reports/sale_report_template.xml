@@ -8,9 +8,9 @@
         <xpath expr="//div[@class='page']" position="before">
             <br/>
         </xpath>
-        <xpath expr="//t[@t-set='information_block']/strong[1]" position="replace">
-            <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoice Address:</strong>
-        </xpath>
+<!--        <xpath expr="//t[@t-set='information_block']/strong[1]" position="replace">-->
+<!--            <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoice Address:</strong>-->
+<!--        </xpath>-->
         <xpath expr="//div[@name='order_lines']" position="replace">
             <t t-if="doc.package">
                 <br/>
