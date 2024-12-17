@@ -688,7 +688,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.view_order_form_advertising
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.view_sale_order_line_create_multi
 msgid "Cancel"
-msgstr "Annuleer"
+msgstr "Annuleer Order"
 
 #. module: sale_advertising_order
 #: model:ir.model.fields.selection,name:sale_advertising_order.selection__sale_order__state__cancel
