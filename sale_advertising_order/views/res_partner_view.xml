@@ -235,5 +235,16 @@
             <field name="active">False</field>
         </record>
 
+        <record id="res_partner_view_buttons" model="ir.ui.view">
+            <field name="name">res.partner.advertising</field>
+            <field name="inherit_id" ref="sale.res_partner_view_buttons"/>
+            <field name="model">res.partner</field>
+                <field type="xml" name="arch">
+                    <button name="action_view_sale_order" position="attributes">
+                        <attribute name="groups">sale_advertising_order.group_ads_traffic_user</attribute>
+                    </button>
+                </field>
+        </record>
+
     </data>
 </odoo>
