@@ -74,6 +74,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
         published_customer = keydict['published_customer']
         payment_mode = keydict['payment_mode_id']
         operating_unit = keydict['operating_unit_id']
+        invoice_payment_term_id = keydict['payment_term_id']
         journal_id = self.env['account.move'].with_context(default_move_type='out_invoice')._get_default_journal().id
         if not journal_id:
             raise UserError(_('Please define an accounting sale journal for this company.'))
@@ -85,7 +86,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
             'published_customer': published_customer.id,
             'invoice_line_ids': lines['lines'],
             'narration': lines['name'],
-            'invoice_payment_term_id': partner.property_payment_term_id.id or False,
+            'invoice_payment_term_id': invoice_payment_term_id or partner.property_payment_term_id.id or False,
             'journal_id': journal_id,
             'fiscal_position_id': partner.property_account_position_id.id or False,
             'user_id': self.env.user.id,
@@ -205,6 +206,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
                 'published_customer': line.order_id.published_customer,
                 'payment_mode_id': line.order_id.payment_mode_id,
                 'operating_unit_id': line.order_id.operating_unit_id,
+                'payment_term_id': line.order_id.payment_term_id and line.order_id.payment_term_id.id or False,
             }
             key, keydict = self.modify_key(key, keydict, line)
 
