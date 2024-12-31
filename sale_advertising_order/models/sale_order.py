@@ -95,6 +95,10 @@ class SaleOrder(models.Model):
             # Enforce
             if record.advertising or (defSOT == AdsSOT):
                 sale_type = AdsSOT
+
+            elif record.type_id:
+                sale_type = record.type_id
+
             # else:
             #     # Specific partner sale type value
             #     sale_type = (
