@@ -43,9 +43,5 @@
             <field name="context">{'module' : 'sale_advertising_order', 'bin_size': False}</field>
         </record>
 
-        <menuitem id="menu_sao_global_settings" name="Settings"
-            parent="menu_advertising_config" sequence="0"
-            action="action_sao_configuration"
-            groups="sale_advertising_order.group_ads_traffic_user"/>
     </data>
 </odoo>
