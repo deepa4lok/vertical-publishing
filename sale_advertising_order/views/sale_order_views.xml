@@ -370,7 +370,7 @@
                 <field name="currency_id" invisible="1"/>
                 <field name="invoice_status" decoration-success="invoice_status == 'invoiced'" decoration-info="invoice_status == 'to invoice'" decoration-warning="invoice_status == 'upselling'" widget="badge" optional="show"/>
                 <field name="tag_ids" optional="hide" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                <field name="state" invisible="1"/>
+                <field name="state" decoration-success="state == 'sale' or state == 'done'" decoration-info="state == 'draft' or state == 'sent'" widget="badge" optional="show"/>
                 <field name="company_id" invisible="1"/>
             </tree>
         </field>
