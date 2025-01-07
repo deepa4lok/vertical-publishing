@@ -644,10 +644,10 @@
                         domain="[('issue_date','&lt;=', datetime.datetime.now())]" help="Order Lines with Issue Date before today" />
                 <filter name="from_date_sale_orders_filter" string="Order Lines with Start of Validity before today"
                         domain="[('from_date','&lt;=', datetime.datetime.now())]" help="Order Lines with Start of validity before today" />
-                <field name="order_id"/>
                 <field name="order_partner_id" operator="child_of"/>
                 <field name="order_advertiser_id" operator="child_of"/>
                 <field name="order_agency_id" operator="child_of"/>
+                <field name="order_id"/>
                 <field name="product_id"/>
                 <field name="salesman_id"/>
                 <field name="partner_acc_mgr"/>
