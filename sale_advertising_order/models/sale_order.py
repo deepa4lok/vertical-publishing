@@ -1151,6 +1151,13 @@ class SaleOrderLine(models.Model):
                                         'Are you sure about this?')}
                 return {'warning': warning}
 
+        exRef = ''
+        for idx, i in enumerate(self.issue_product_ids):
+            if idx == 0:
+                exRef = i.ad_number
+                continue
+            i.ad_number = exRef
+
     @api.onchange('proof_number_adv_customer')
     def onchange_proof_number_adv_customer(self):
         'Migration: from nsm_sale_advertising_order'
