@@ -1156,7 +1156,8 @@ class SaleOrderLine(models.Model):
             if idx == 0:
                 exRef = i.ad_number
                 continue
-            i.ad_number = exRef
+            if not i.ad_number:
+                i.ad_number = exRef
 
     @api.onchange('proof_number_adv_customer')
     def onchange_proof_number_adv_customer(self):
