@@ -318,6 +318,11 @@
                            'res_partner_search_mode': 'customer'}" options="{'no_create': True}"/>
             </xpath>
 
+            <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                <attribute name="context">{'default_type':'invoice', 'res_partner_search_mode': 'invoice', 'show_address': 1, 'show_email': 1, 'show_vat': True}</attribute>
+                <attribute name="widget">res_partner_many2one</attribute>
+            </xpath>
+
             <xpath expr="//field[@name='team_id']" position="after">
                 <field name="partner_acc_mgr"/>
             </xpath>
@@ -370,7 +375,7 @@
                 <field name="currency_id" invisible="1"/>
                 <field name="invoice_status" decoration-success="invoice_status == 'invoiced'" decoration-info="invoice_status == 'to invoice'" decoration-warning="invoice_status == 'upselling'" widget="badge" optional="show"/>
                 <field name="tag_ids" optional="hide" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                <field name="state" invisible="1"/>
+                <field name="state" decoration-success="state == 'sale' or state == 'done'" decoration-info="state == 'draft' or state == 'sent'" widget="badge" optional="show"/>
                 <field name="company_id" invisible="1"/>
             </tree>
         </field>
@@ -644,10 +649,10 @@
                         domain="[('issue_date','&lt;=', datetime.datetime.now())]" help="Order Lines with Issue Date before today" />
                 <filter name="from_date_sale_orders_filter" string="Order Lines with Start of Validity before today"
                         domain="[('from_date','&lt;=', datetime.datetime.now())]" help="Order Lines with Start of validity before today" />
-                <field name="order_id"/>
                 <field name="order_partner_id" operator="child_of"/>
                 <field name="order_advertiser_id" operator="child_of"/>
                 <field name="order_agency_id" operator="child_of"/>
+                <field name="order_id"/>
                 <field name="product_id"/>
                 <field name="salesman_id"/>
                 <field name="partner_acc_mgr"/>

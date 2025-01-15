@@ -95,6 +95,10 @@ class SaleOrder(models.Model):
             # Enforce
             if record.advertising or (defSOT == AdsSOT):
                 sale_type = AdsSOT
+
+            elif record.type_id:
+                sale_type = record.type_id
+
             # else:
             #     # Specific partner sale type value
             #     sale_type = (
@@ -806,9 +810,9 @@ class SaleOrderLine(models.Model):
             issue_ids = self.adv_issue_ids.ids
             adv_issues = self.env['sale.advertising.issue'].search([('id', 'in', issue_ids)])
             issue_parent_ids = [x.parent_id.id for x in adv_issues]
-            for title in titles:
-                if not (title in issue_parent_ids):
-                    raise UserError(_('Not for every selected Title an Issue is selected.'))
+            # for title in titles: # FIXME: Redundant Trigger !! can be removed
+            #     if not (title in issue_parent_ids):
+            #         raise UserError(_('Not for every selected Title an Issue is selected.'))
 
         elif self.title_ids and self.issue_product_ids:
             titles = self.title_ids.ids
@@ -845,6 +849,11 @@ class SaleOrderLine(models.Model):
 
         if self.title_ids and (len(self.adv_issue_ids) == 0):
             raise UserError(_('Please select Advertising Issue(s) to proceed further.'))
+
+        # issue_parent_ids = [x.parent_id.id for x in self.adv_issue_ids]
+        # for title in self.title_ids:
+        #     if not (title in issue_parent_ids):
+        #         raise UserError(_('Not for every selected Title an Issue is selected. [PT]'))
 
         if self.product_template_id and self.adv_issue_ids and len(self.adv_issue_ids) > 1:
             self.product_uom = self.product_template_id.uom_id
@@ -1093,9 +1102,9 @@ class SaleOrderLine(models.Model):
             issue_ids = ais.ids
             adv_issues = self.env['sale.advertising.issue'].search([('id', 'in', issue_ids)])
             issue_parent_ids = [x.parent_id.id for x in adv_issues]
-            for title in titles:
-                if not (title in issue_parent_ids):
-                    raise UserError(_('Not for every selected Title an Issue is selected.'))
+            # for title in titles: #FIXME: Redundant Trigger !! can be removed
+            #     if not (title in issue_parent_ids):
+            #         raise UserError(_('Not for every selected Title an Issue is selected. [3]'))
 
         # consider 1st Issue (as Single Edition) for computation
         if len(ais) == 1:
@@ -1142,6 +1151,14 @@ class SaleOrderLine(models.Model):
                                         'Are you sure about this?')}
                 return {'warning': warning}
 
+        exRef = ''
+        for idx, i in enumerate(self.issue_product_ids):
+            if idx == 0:
+                exRef = i.ad_number
+                continue
+            if not i.ad_number:
+                i.ad_number = exRef
+
     @api.onchange('proof_number_adv_customer')
     def onchange_proof_number_adv_customer(self):
         'Migration: from nsm_sale_advertising_order'
@@ -1184,7 +1201,7 @@ class SaleOrderLine(models.Model):
                 for title in case.title_ids.ids:
                     if not (title in issue_parent_ids):
                         raise ValidationError(
-                            _("Not for every selected Title an Issue is selected.")
+                            _("Not for every selected Title an Issue is selected. [%s]")
                             % (case.name))
 
     @api.onchange('from_date', 'to_date')

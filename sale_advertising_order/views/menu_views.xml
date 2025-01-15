@@ -78,6 +78,11 @@
         <menuitem id="menu_advertising_config" name="Configuration" parent="advertising_sale_menu_root"
                 groups="group_ads_traffic_user"  sequence="10"/>
 
+        <menuitem id="menu_sao_global_settings" name="Settings"
+                parent="menu_advertising_config" sequence="0"
+                action="action_sao_configuration"
+                groups="sale_advertising_order.group_ads_traffic_user"/>
+
 <!--            <menuitem id="sales_team_config3"  name="Sales Teams"-->
 <!--                      parent="menu_advertising_config" action="sales_team.sales_team_config_action" sequence="1"/>-->
 
