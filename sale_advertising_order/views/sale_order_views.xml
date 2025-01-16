@@ -322,6 +322,10 @@
                 <attribute name="widget">res_partner_many2one</attribute>
             </xpath>
 
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,sent,submitted,approved1,sale</attribute>
+            </xpath>
+
             <xpath expr="//field[@name='team_id']" position="after">
                 <field name="partner_acc_mgr"/>
             </xpath>
