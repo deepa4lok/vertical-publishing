@@ -230,11 +230,23 @@ class SaleOrder(models.Model):
         orders.write({'state':'draft'})
         return True
 
-    def action_cancel(self):
-        for order in self.filtered(lambda s: s.state == 'sale' and s.advertising):
-            for line in order.order_line:
-                line.page_qty_check_unlink()
-        return super(SaleOrder, self).action_cancel()
+    # TODO: move this into SAO Stock
+    # def action_cancel(self):
+    #     for order in self.filtered(lambda s: s.state == 'sale' and s.advertising):
+    #         for line in order.order_line:
+    #             line.page_qty_check_unlink()
+    #     return super(SaleOrder, self).action_cancel()
+
+
+    def _action_cancel(self):
+        postedInv = self.invoice_ids.filtered(lambda inv: inv.state not in ('draft', 'cancel'))
+
+        if postedInv:
+            if len(self.ids) == 1:
+                raise UserError("Cannot cancel this Sale Order !! Invoice has been posted. Please check.")
+            else:
+                self -= postedInv
+        return super(SaleOrder, self)._action_cancel()
 
     def action_confirm(self):
         # FIXME: This logic is no longer needed: To Refactor
