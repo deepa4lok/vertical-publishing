@@ -185,13 +185,14 @@
                                <field name="mig_remark" colspan="2" nolabel="1"/>
                             </group>
                            <group>
-                               <field name="page_class_domain" invisible="1"/>
+<!--                               <field name="page_class_domain" invisible="1"/>-->
+                               <field name="ad_class_tags_ids" invisible="1"/>
                                <label for="analytic_tag_ids" string="Page Category"/>
                                <div>
                                     <field name="analytic_tag_ids"
                                            string="Page Category"
                                            widget="many2many_tags"
-                                           domain="page_class_domain"
+                                           domain="[('id', 'in', ad_class_tags_ids)]"
                                            attrs="{'readonly': [('deadline_passed','=', True)]}"/>
                                </div>
                                 <field name="ad_number" attrs="{'invisible':[('multi_line','!=', False)]}"/>
@@ -847,6 +848,7 @@
                                     options="{'currency_field': 'currency_id'}" />
                             <field name="date_type" invisible="True"/>
                             <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
                         </group>
                         </group>
                        <notebook>
@@ -861,13 +863,14 @@
                                        <field name="mig_remark" colspan="2" nolabel="1"/>
                                     </group>
                                    <group>
-                                       <field name="page_class_domain" invisible="1"/>
+<!--                                       <field name="page_class_domain" invisible="1"/>-->
+                                       <field name="ad_class_tags_ids" invisible="1"/>
                                        <label for="analytic_tag_ids" string="Page Category"/>
                                        <div>
                                             <field name="analytic_tag_ids"
                                                    string="Page Category"
                                                    widget="many2many_tags"
-                                                   domain="page_class_domain"
+                                                   domain="[('id', 'in', ad_class_tags_ids)]"
                                                    attrs="{'readonly': [('deadline_passed','=', True)]}"/>
                                        </div>
                                         <field name="ad_number" attrs="{'invisible':[('multi_line','!=', False)]}"/>

@@ -555,16 +555,16 @@ class SaleOrderLine(models.Model):
         return [('id','child_of', self.medium.id), ('id', '!=', self.medium.id)]
 
 
-    @api.depends('ad_class')
-    def _compute_tags_domain(self):
-        """
-        Compute the domain for the Pageclass domain.
-        """
-        # FIXME: Check
-        for rec in self:
-            rec.page_class_domain = json.dumps(
-                [('id', 'in', rec.ad_class.tag_ids.ids)]
-            )
+    # @api.depends('ad_class')
+    # def _compute_tags_domain(self):
+    #     """
+    #     Compute the domain for the Pageclass domain.
+    #     """
+    #     # FIXME: Check
+    #     for rec in self:
+    #         rec.page_class_domain = json.dumps(
+    #             [('id', 'in', rec.ad_class.tag_ids.ids)]
+    #         )
 
     @api.depends('product_id')
     def _get_product_data(self):
@@ -655,7 +655,7 @@ class SaleOrderLine(models.Model):
 
     mig_remark = fields.Text('Migration Remark')
     layout_remark = fields.Text('Material Remark')
-    page_class_domain = fields.Char(compute='_compute_tags_domain', readonly=True, store=False,) #FIXME ?
+    # page_class_domain = fields.Char(compute='_compute_tags_domain', readonly=True, store=False,) #deprecated ?
 
     advertising = fields.Boolean(related='order_id.advertising', string='Advertising', store=True)
 
@@ -666,6 +666,8 @@ class SaleOrderLine(models.Model):
     adv_issue_ids = fields.Many2many('sale.advertising.issue','sale_order_line_adv_issue_rel', 'order_line_id', 'adv_issue_id',  'Advertising Issues')
 
     ad_class = fields.Many2one('product.category', 'Advertising Class', domain=_get_adClass_domain)
+    ad_class_tags_ids = fields.Many2many(related="ad_class.tag_ids", string="Tags")
+
     issue_date = fields.Date(compute='_compute_Issuedt', string='Issue Date', store=True)
     date_type = fields.Selection(related='ad_class.date_type', type='selection', readonly=True)
     issue_product_ids = fields.One2many('sale.order.line.issues.products', 'order_line_id',
