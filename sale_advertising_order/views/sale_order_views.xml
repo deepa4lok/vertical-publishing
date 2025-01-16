@@ -36,9 +36,9 @@
                 <field name="product_uom_qty"/>
                 <field name="product_uom" invisible="1" groups="!uom.group_uom"/>
                 <field name="comb_list_price" widget="monetary" optional="hide"/>
+                <field name="discount" string="Agency Discount (%)" optional="hide"/>
                 <field name="computed_discount" />
                 <field name="subtotal_before_agency_disc" widget="monetary" optional="hide"/>
-<!--                <field name="discount_dummy" optional="hide"/>-->
                 <field name="tax_id" widget="many2many_tags"
                         groups="account.group_account_invoice, sale_advertising_order.group_ads_traffic_user"/>
                 <field name="discount" groups="product.group_discount_per_so_line" invisible="1"/>
@@ -145,13 +145,12 @@
                             groups="sale_advertising_order.group_ads_traffic_user"
                             attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
                         <field name="price_edit" invisible="1"/>
-                        <field name="price_unit" readonly="0"  string="P.U (*)"
-                                widget="monetary" options="{'currency_field': 'currency_id'}" />
-<!--                        attrs="{'invisible': ['|',('multi_line','=', True),('price_edit','!=', True)]}"-->
-
-                        <field name="price_unit_dummy" readonly="1"  string="P.U.M (*)"
-                                widget="monetary" options="{'currency_field': 'currency_id'}" />
-<!--                        attrs="{'invisible': ['|',('multi_line','=', True),('price_edit','=', True)]}"-->
+                        <field name="price_unit" readonly="0"
+                                widget="monetary" options="{'currency_field': 'currency_id'}"
+                                attrs="{'invisible': ['|',('multi_line','=', True),('price_edit','!=', True)]}"  />
+                        <field name="price_unit_dummy" readonly="1"
+                                widget="monetary" options="{'currency_field': 'currency_id'}"
+                        attrs="{'invisible': ['|',('multi_line','=', True),('price_edit','=', True)]}"  />
                         <field name="comb_list_price" readonly="True" attrs="{'invisible': [('multi_line','=', False)]}"
                                 widget="monetary" options="{'currency_field': 'currency_id'}" />
                         <field name="actual_unit_price" attrs="{'invisible': [('multi_line','=', True)]}" widget="monetary"
@@ -163,10 +162,9 @@
                             </div>
                         <field name="discount_reason_id" attrs="{'invisible': [('computed_discount','=', 0.0)],'required': [('computed_discount','!=', 0.0)]}"/>
                         <field name="subtotal_before_agency_disc" readonly="False"/>
-                        <label for="discount" string="Agency Commission" groups="product.group_discount_per_so_line"/>
+                        <label for="discount" string="Agency Discount (%)" groups="product.group_discount_per_so_line"/>
                             <div name="discount" string="Agency Discount (%)" groups="product.group_discount_per_so_line">
-                                <field name="discount" invisible="1"/>
-<!--                                <field name="discount_dummy" class="oe_inline"/> %%-->
+                                <field name="discount" readonly="1" force_save="1"/>
                             </div>
                         <field name="price_subtotal" readonly="True" widget="monetary"
                                 options="{'currency_field': 'currency_id'}" />
@@ -700,9 +698,9 @@
                 <field name="price_unit" optional="hide"/>
                 <field name="product_uom_qty" optional="hide"/>
                 <field name="actual_unit_price" optional="hide"/>
+                <field name="discount" string="Agency Discount (%)" optional="hide"/>
                 <field name="computed_discount" optional="hide"/>
                 <field name="subtotal_before_agency_disc" optional="hide"/>
-<!--                <field name="discount_dummy" optional="hide"/>-->
                 <field name="tax_id" optional="hide"/>
                 <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded"/>
                 <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included"/>
@@ -841,10 +839,9 @@
                                 </div>
                             <field name="discount_reason_id" attrs="{'invisible': [('computed_discount','=', 0.0)],'required': [('computed_discount','!=', 0.0)]}"/>
                             <field name="subtotal_before_agency_disc" readonly="False"/>
-                            <label for="discount" string="Agency Commission" groups="product.group_discount_per_so_line"/>
+                            <label for="discount" string="Agency Discount" groups="product.group_discount_per_so_line"/>
                                 <div name="discount" string="Agency Discount (%)" groups="product.group_discount_per_so_line">
-                                    <field name="discount" invisible="1"/>
-    <!--                                <field name="discount_dummy" class="oe_inline"/> %%-->
+                                    <field name="discount" readonly="1" force_save="1"/>
                                 </div>
                             <field name="price_subtotal" readonly="True" widget="monetary"
                                     options="{'currency_field': 'currency_id'}" />
