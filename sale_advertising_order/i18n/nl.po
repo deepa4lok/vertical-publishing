@@ -124,7 +124,7 @@ msgstr "<strong>Adverteerder:</strong>"
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
 msgid "<strong>Advertising issue</strong>"
-msgstr "<strong>Advertentie editie</strong>"
+msgstr "<strong>Editie</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
@@ -270,7 +270,7 @@ msgstr ""
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
 msgid "<strong>Volume</strong>"
-msgstr ""
+msgstr "Aantal"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_invoice_document_sao
@@ -418,7 +418,7 @@ msgstr "Advertentieklant"
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_invoice_orderlines_document_sao
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.view_adv_order_line_filter
 msgid "Advertising Issue"
-msgstr "Advertentie editie"
+msgstr "Editie"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.view_adv_order_line_form
@@ -2172,7 +2172,7 @@ msgstr "Creditfactuur leverancier"
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_invoice_orderlines_document_sao
 msgid "Volume"
-msgstr ""
+msgstr "Aantal"
 
 #. module: sale_advertising_order
 #. odoo-python
