@@ -193,7 +193,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
             'product_uom_id': line.product_uom.id,
             'product_id': line.product_id and line.product_id.id or False,
             'tax_ids': [(6, 0, line.tax_id.ids or [])],
-            # 'analytic_account_id': line.adv_issue.analytic_account_id and line.adv_issue.analytic_account_id.id or False,FIXME
+            'analytic_distribution' : {line.adv_issue.analytic_account_id.id: 100},
             'analytic_tag_ids': [(6, 0, line.analytic_tag_ids.ids or [])],
             'so_line_id': line.id,
             # 'computed_discount': line.computed_discount, # FIXME?

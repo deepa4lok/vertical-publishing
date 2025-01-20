@@ -1274,7 +1274,7 @@ class SaleOrderLine(models.Model):
     def _prepare_invoice_line(self, **optional_values):
         res = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
         if self.advertising:
-            # res['analytic_account_id'] = self.adv_issue.analytic_account_id.id #FIXME
+            res['analytic_distribution'] = {self.adv_issue.analytic_account_id.id: 100}
             res['so_line_id'] = self.id
             res['price_unit'] = self.actual_unit_price
             res['ad_number'] = self.ad_number
