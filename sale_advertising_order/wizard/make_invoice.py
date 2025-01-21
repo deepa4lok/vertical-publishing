@@ -67,6 +67,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
                                if payment_mode.bank_account_link == 'fixed'
                                else partner.bank_ids and partner.bank_ids[0].id or False,
             'sale_type_id': ref('sale_advertising_order.ads_sale_type').id,
+            'ref': keydict['client_order_ref'],
         }
         return vals
 
@@ -125,6 +126,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
                 'payment_mode_id': line.order_id.payment_mode_id,
                 'payment_term_id': line.order_id.payment_term_id.id,
                 'company_id': line.order_id.company_id.id,
+                'client_order_ref': line.order_id.client_order_ref,
             }
             key, keydict = self.modify_key(key, keydict, line)
 
