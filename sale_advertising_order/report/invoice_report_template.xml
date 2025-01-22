@@ -140,9 +140,10 @@
                         <strong>Your Reference:</strong>
                         <p class="m-0" t-field="o.ref"/>
                     </div>
-                    <div class="col-auto col-3 mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code">
+                    <div class="col-auto col-3 mw-100 mb-2" name="customer_code">
                         <strong>Customer Code:</strong>
-                        <p class="m-0" t-field="o.partner_id.ref"/>
+                        <p class="m-0" t-if="o.partner_id.ref" t-field="o.partner_id.ref"/>
+                        <p class="m-0" t-elif="o.partner_id.parent_id" t-field="o.partner_id.parent_id.ref"/>
                     </div>
 
                     <t t-set="sale_orders" t-value="o.invoice_line_ids.mapped('sale_order_id')"/>
