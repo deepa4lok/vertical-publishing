@@ -69,14 +69,19 @@
 <!--                        </t>-->
 <!--                    </td>-->
                     <td width="10%" t-if="display_discount" class="text-end">
-                        <t t-if="o.move_type != 'out_refund'">
-                            <t t-set="discount_amount" t-value="l.subtotal_before_agency_disc - l.price_subtotal"/>
-                        </t>
-                        <t t-if="o.move_type == 'out_refund'">
-                            <t t-set="discount_amount" t-value="l.subtotal_before_agency_disc - l.price_subtotal"/>
-                        </t>
+<!--                        <t t-if="o.move_type != 'out_refund'"> FIXME: I see no difference-->
+<!--                            <t t-set="discount_amount" t-value="l.subtotal_before_agency_disc - l.price_subtotal"/>-->
+<!--                        </t>-->
+<!--                        <t t-if="o.move_type == 'out_refund'">-->
+<!--                            <t t-set="discount_amount" t-value="l.subtotal_before_agency_disc - l.price_subtotal"/>-->
+<!--                        </t>-->
+<!--                        <t t-esc="discount_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+<!--                        (<t t-if="o.move_type != 'out_refund'"><span t-esc="'%.2f'%(l.discount)"/></t><t t-if="o.move_type == 'out_refund'"><span t-esc="'%.2f'%(l.discount)"/>%</t>)-->
+
+                        <t t-set="discount_amount" t-value="l.subtotal_before_agency_disc - l.price_subtotal"/>
+
                         <t t-esc="discount_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                        (<t t-if="o.move_type != 'out_refund'"><span t-field="l.discount"/></t><t t-if="o.move_type == 'out_refund'"><span t-esc="l.discount"/></t>%)
+                        (<span t-esc="'%.2f'%(l.discount)"/>%)
                     </td>
                     <td width="10%" class="is-subtotal text-end">
                         <span t-if="o.move_type == 'out_refund'">-</span><span t-esc="l.price_subtotal"  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
