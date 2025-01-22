@@ -104,7 +104,7 @@
                     <t>T.a.v.</t>: <t>Crediteurenadministratie</t>
                 </div>
                 <div t-if="o.partner_id.is_company and o.customer_contact" class="mt16">
-                    T.a.v.: <span t-field="o.customer_contact.name"/>
+                    <t>T.a.v.</t>: <span t-field="o.customer_contact.name"/>
                 </div>
 
                 <div t-if="o.published_customer and o.published_customer.id != o.partner_id.id" class="mt16">
