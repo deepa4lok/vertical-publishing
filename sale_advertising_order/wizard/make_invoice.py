@@ -56,7 +56,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
             'published_customer': published_customer.id,
             'customer_contact': customer_contact,
             'invoice_line_ids': lines['lines'],
-            'narration': lines['name'],
+            # 'narration': lines['name'], # ??
             'invoice_payment_term_id': invoice_payment_term_id,
             # 'journal_id': self.company_data['default_journal_sale'].id, # FIXME
             'fiscal_position_id': partner.property_account_position_id.id or False,
