@@ -14,8 +14,7 @@
                     <th width="10%" class="text-start">Product</th>
                     <th width="10%" class="text-end">Volume</th>
                     <t t-if="display_unit_price or display_discount"><th width="5%" class="text-end">Unit Price</th></t>
-                    <th width="5%" t-if="display_discount" class="text-end">SBAD</th>
-                    <th width="10%" t-if="display_discount" class="text-end">Agency Disc</th>
+<!--                    <th width="5%" t-if="display_discount" class="text-end">SBAD</th>-->
                     <th width="10%" t-if="display_discount" class="text-end">Agency Disc</th>
                     <th width="10%" class="text-end">Tax Excluded Price</th>
                 </tr>
@@ -61,14 +60,14 @@
                             <span t-field="l.price_unit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                         </td>
                     </t>
-                    <td width="5%" t-if="display_discount" class="text-end">
-                        <t t-if="o.move_type != 'out_refund'">
-                            <span t-field="l.subtotal_before_agency_disc"/>
-                        </t>
-                        <t t-if="o.move_type == 'out_refund'">
-                            <span t-esc="l.subtotal_before_agency_disc" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                        </t>
-                    </td>
+<!--                    <td width="5%" t-if="display_discount" class="text-end">-->
+<!--                        <t t-if="o.move_type != 'out_refund'">-->
+<!--                            <span t-field="l.subtotal_before_agency_disc"/>-->
+<!--                        </t>-->
+<!--                        <t t-if="o.move_type == 'out_refund'">-->
+<!--                            <span t-esc="l.subtotal_before_agency_disc" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+<!--                        </t>-->
+<!--                    </td>-->
                     <td width="10%" t-if="display_discount" class="text-end">
                         <t t-if="o.move_type != 'out_refund'">
                             <t t-set="discount_amount" t-value="l.subtotal_before_agency_disc - l.price_subtotal"/>
@@ -101,13 +100,11 @@
                     <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label" id="inv_tax_id_label"/>
                     <t t-else="">Tax ID</t>: <span t-field="o.partner_id.vat"/></div>
 
-                <div t-if="o.partner_id.is_company" class="mt16">
+                <div t-if="o.partner_id.is_company and not o.customer_contact" class="mt16">
                     <t>T.a.v.</t>: <t>Crediteurenadministratie</t>
                 </div>
-                <div t-if="not o.partner_id.is_company" class="mt16">
-                    <div t-if="o.partner_id and o.partner_id.parent_id">
-                        T.a.v.:<span t-field="o.partner_id.parent_id.name"/>
-                    </div>
+                <div t-if="o.partner_id.is_company and o.customer_contact" class="mt16">
+                    T.a.v.: <span t-field="o.customer_contact.name"/>
                 </div>
 
                 <div t-if="o.published_customer and o.published_customer.id != o.partner_id.id" class="mt16">
@@ -143,9 +140,10 @@
                         <strong>Your Reference:</strong>
                         <p class="m-0" t-field="o.ref"/>
                     </div>
-                    <div class="col-auto col-3 mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code">
+                    <div class="col-auto col-3 mw-100 mb-2" name="customer_code">
                         <strong>Customer Code:</strong>
-                        <p class="m-0" t-field="o.partner_id.ref"/>
+                        <p class="m-0" t-if="o.partner_id.ref" t-field="o.partner_id.ref"/>
+                        <p class="m-0" t-elif="o.partner_id.parent_id" t-field="o.partner_id.parent_id.ref"/>
                     </div>
 
                     <t t-set="sale_orders" t-value="o.invoice_line_ids.mapped('sale_order_id')"/>
@@ -182,14 +180,14 @@
                                 <tr t-if="display_discount" class="border-black" style="">
                                     <td><strong>Subtotal before agency discount</strong></td>
                                     <td class="text-end">
-                                        <span t-esc="total_before_discount"/>
+                                        <span t-esc="total_before_discount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                     </td>
                                 </tr>
 
                                 <tr t-if="display_discount"  style="">
                                     <td><strong>Sum of agency discount</strong></td>
                                     <td class="text-end">
-                                        <span t-esc="total_discount"/>
+                                        <span t-esc="total_discount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                     </td>
                                 </tr>
 

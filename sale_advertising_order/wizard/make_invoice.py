@@ -56,17 +56,18 @@ class AdOrderLineMakeInvoice(models.TransientModel):
             'published_customer': published_customer.id,
             'customer_contact': customer_contact,
             'invoice_line_ids': lines['lines'],
-            'narration': lines['name'],
+            # 'narration': lines['name'], # ??
             'invoice_payment_term_id': invoice_payment_term_id,
             # 'journal_id': self.company_data['default_journal_sale'].id, # FIXME
             'fiscal_position_id': partner.property_account_position_id.id or False,
             'user_id': self.env.user.id,
-            'company_id': self.env.user.company_id.id,
+            'company_id': keydict['company_id'],
             'payment_mode_id': payment_mode.id or False,
             'partner_bank_id': payment_mode.fixed_journal_id.bank_account_id.id
                                if payment_mode.bank_account_link == 'fixed'
                                else partner.bank_ids and partner.bank_ids[0].id or False,
             'sale_type_id': ref('sale_advertising_order.ads_sale_type').id,
+            'ref': keydict['client_order_ref'],
         }
         return vals
 
@@ -118,12 +119,14 @@ class AdOrderLineMakeInvoice(models.TransientModel):
         count = 0
         for line in chunk:
             key = (line.order_id.partner_invoice_id, line.order_id.published_customer
-                   , line.order_id.payment_mode_id, line.order_id.payment_term_id)
+                   , line.order_id.payment_mode_id, line.order_id.payment_term_id, line.order_id.company_id.id)
             keydict = {
                 'partner_id': line.order_id.partner_invoice_id,
                 'published_customer': line.order_id.published_customer,
                 'payment_mode_id': line.order_id.payment_mode_id,
                 'payment_term_id': line.order_id.payment_term_id.id,
+                'company_id': line.order_id.company_id.id,
+                'client_order_ref': line.order_id.client_order_ref,
             }
             key, keydict = self.modify_key(key, keydict, line)
 

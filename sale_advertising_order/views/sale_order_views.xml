@@ -402,7 +402,7 @@
                 <field name="published_customer"/>
                 <field name="advertising_agency"/>
                 <separator/>
-                <filter string="To Invoice" name="to_invoice" domain="[('invoice_status','=','to_invoice')]"/>
+                <filter string="To Invoice" name="to_invoice" domain="[('invoice_status','=','to invoice')]"/>
 
                 <separator/>
                 <filter string="Submitted" name="submitted" domain="[('state','=','submitted')]"/>
