@@ -1037,7 +1037,7 @@ class SaleOrderLine(models.Model):
             name += '\n' + pt.description_sale
         self.name = name
 
-    @api.onchange('date_type')
+    @api.onchange('date_type', 'issue_date')
     def onchange_date_type(self):
         if not self.advertising:
             return
