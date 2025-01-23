@@ -8,13 +8,15 @@
     <template id="report_saleorderlines_document_sao">
         <t t-foreach="doc.order_line.sorted(key=lambda r: r.from_date)" t-as="page">
 
+            <t t-set="display_deadline" t-value="any(l.state in ('done','sale') for l in doc.order_line)"/>
+
             <table class="table table-sm o_main_table table-borderless mt-4">
                 <thead style="display: table-row-group">
                     <tr>
                         <th name="th_date" class="text-center"><strong
                                 >Date</strong></th>
                         <th name="th_adv_issue" class="text-start"><strong>Advertising issue</strong></th>
-                        <th name="th_deadline"><strong>Deadline</strong></th>
+                        <th name="th_deadline" t-if="display_deadline"><strong>Deadline</strong></th>
                         <th name="th_product" class="text-start"><strong>Product</strong></th>
                         <th name="th_quantity" class="text-end"><strong
                                 >Quantity</strong></th>
@@ -40,7 +42,7 @@
                             <td t-if="l.ad_class.date_type != 'validity'">
                                 <span t-field="l.issue_date"/></td>
                             <t><td class="text-start"><span t-if="l.adv_issue and l.adv_issue.default_note" t-field="l.adv_issue.default_note"/><span t-if="l.adv_issue and not l.adv_issue.default_note" t-field="l.adv_issue.name"/></td></t>
-                            <td><span t-field="l.deadline"/></td>
+                            <td t-if="display_deadline"><span t-field="l.deadline"/></td>
                             <td class="text-start" t-if="l.product_id" ><span t-field="l.product_id.name"/></td>
                             <td class="text-end">
                                 <span t-esc="'%.2f'% l.product_uom_qty"/>
