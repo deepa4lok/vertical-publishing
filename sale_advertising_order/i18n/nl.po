@@ -128,13 +128,13 @@ msgstr "<strong>Editie</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
-msgid "<strong>Computed discount(%)</strong>"
-msgstr "<strong>Berekende korting(%)</strong>"
+msgid "<strong>Discount(%)</strong>"
+msgstr "<strong>Korting(%)</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorder_document_sao
-msgid "<strong>Computed discount</strong>"
-msgstr "<strong>Berekende korting</strong>"
+msgid "<strong>Discount</strong>"
+msgstr "<strong>Korting</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_invoice_document_sao
@@ -269,7 +269,7 @@ msgstr ""
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
-msgid "<strong>Volume</strong>"
+msgid "<strong>Quantity</strong>"
 msgstr "Aantal"
 
 #. module: sale_advertising_order
