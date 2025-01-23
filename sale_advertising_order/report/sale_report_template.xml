@@ -75,6 +75,7 @@
 
             </table>
 
+            <p></p><!-- prevents misc data -->
             <t t-if="page_index &lt; page_size - 1" groups="sale.group_sale_layout">
                 <p style="page-break-before:always;"> </p>
             </t>
