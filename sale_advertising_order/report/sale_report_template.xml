@@ -58,7 +58,7 @@
                                 <span t-field="l.computed_discount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                             <td t-if="doc.advertising_agency" class="text-end">
-                                <span t-field="l.subtotal_before_agency_disc" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                <span t-field="l.subtotal_before_agency_disc" /> %
                             </td>
                             <td name="line_amount_td" class="text-end" >
                                 <span t-field="l.price_subtotal" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>

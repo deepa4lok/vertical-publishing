@@ -255,7 +255,7 @@ msgstr "<strong>Totale bureaukorting</strong>"
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
 msgid "<strong>Tax excluded price</strong>"
-msgstr ""
+msgstr "<strong>Subtotaal Ex. BTW</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorder_document_sao
