@@ -128,13 +128,13 @@ msgstr "<strong>Editie</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
-msgid "<strong>Computed discount(%)</strong>"
-msgstr "<strong>Berekende korting(%)</strong>"
+msgid "<strong>Discount(%)</strong>"
+msgstr "<strong>Korting(%)</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorder_document_sao
-msgid "<strong>Computed discount</strong>"
-msgstr "<strong>Berekende korting</strong>"
+msgid "<strong>Discount</strong>"
+msgstr "<strong>Korting</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_invoice_document_sao
@@ -255,7 +255,7 @@ msgstr "<strong>Totale bureaukorting</strong>"
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
 msgid "<strong>Tax excluded price</strong>"
-msgstr ""
+msgstr "<strong>Subtotaal Ex. BTW</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorder_document_sao
@@ -265,12 +265,12 @@ msgstr "<strong>Totaal</strong>"
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
 msgid "<strong>Unit Price</strong>"
-msgstr ""
+msgstr "<strong>Stuksprijs</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
-msgid "<strong>Volume</strong>"
-msgstr "Aantal"
+msgid "<strong>Quantity</strong>"
+msgstr "<strong>Aantal</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_invoice_document_sao

@@ -6,7 +6,9 @@
                 Sale Report (Lines)
     -->
     <template id="report_saleorderlines_document_sao">
-        <t t-foreach="doc.order_line" t-as="page">
+        <t t-foreach="doc.order_line.sorted(key=lambda r: r.from_date)" t-as="page">
+
+            <t t-set="display_deadline" t-value="any(l.state in ('done','sale') for l in doc.order_line)"/>
 
             <table class="table table-sm o_main_table table-borderless mt-4">
                 <thead style="display: table-row-group">
@@ -14,16 +16,16 @@
                         <th name="th_date" class="text-center"><strong
                                 >Date</strong></th>
                         <th name="th_adv_issue" class="text-start"><strong>Advertising issue</strong></th>
-                        <th name="th_deadline"><strong>Deadline</strong></th>
+                        <th name="th_deadline" t-if="display_deadline"><strong>Deadline</strong></th>
                         <th name="th_product" class="text-start"><strong>Product</strong></th>
                         <th name="th_quantity" class="text-end"><strong
-                                >Volume</strong></th>
+                                >Quantity</strong></th>
                         <th name="th_price_unit" class="text-end" t-if="doc.display_discount_to_customer">
                             <strong>Unit Price</strong></th>
                         <th name="th_actprice_unit" class="text-end" t-if="not doc.advertising_agency">
                             <strong>Actual Unit Price</strong></th>
                         <th name="th_comdisc" class="text-end" t-if="doc.display_discount_to_customer">
-                            <strong>Computed discount(%)</strong></th>
+                            <strong>Discount(%)</strong></th>
                         <th name="th_advagency" class="text-end" t-if="doc.advertising_agency">
                             <strong>SBAD</strong></th>
                         <th name="th_subtot" class="text-end">
@@ -40,26 +42,26 @@
                             <td t-if="l.ad_class.date_type != 'validity'">
                                 <span t-field="l.issue_date"/></td>
                             <t><td class="text-start"><span t-if="l.adv_issue and l.adv_issue.default_note" t-field="l.adv_issue.default_note"/><span t-if="l.adv_issue and not l.adv_issue.default_note" t-field="l.adv_issue.name"/></td></t>
-                            <td><span t-field="l.deadline"/></td>
+                            <td t-if="display_deadline"><span t-field="l.deadline"/></td>
                             <td class="text-start" t-if="l.product_id" ><span t-field="l.product_id.name"/></td>
                             <td class="text-end">
                                 <span t-esc="'%.2f'% l.product_uom_qty"/>
                                 <span t-field="l.product_uom" groups="product.group_uom"/>
                             </td>
                             <td t-if="doc.display_discount_to_customer" class="text-end">
-                                <span t-field="doc.currency_id.symbol"/><span> </span><span t-esc="'%.2f'% l.price_unit"/>
+                                <span t-field="l.price_unit" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                             <td t-if="not doc.advertising_agency" class="text-end">
-                                <span t-field="doc.currency_id.symbol"/><span> </span><span t-esc="'%.2f'% l.actual_unit_price"/>
+                                <span t-field="l.actual_unit_price" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                             <td t-if="doc.display_discount_to_customer" class="text-end">
-                                <span t-field="doc.currency_id.symbol"/><span> </span><span t-esc="'%.2f'% l.computed_discount"/>
+                                <span t-field="l.computed_discount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                             <td t-if="doc.advertising_agency" class="text-end">
-                                <span t-field="doc.currency_id.symbol"/><span> </span><span t-esc="'%.2f'% l.subtotal_before_agency_disc"/>
+                                <span t-field="l.subtotal_before_agency_disc" /> %
                             </td>
                             <td name="line_amount_td" class="text-end" >
-                                <span t-field="doc.currency_id.symbol"/><span> </span><span t-esc="'%.2f'% l.price_subtotal"/>
+                                <span t-field="l.price_subtotal" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                         </tr>
                         <t>
@@ -73,6 +75,7 @@
 
             </table>
 
+            <p></p><!-- prevents misc data -->
             <t t-if="page_index &lt; page_size - 1" groups="sale.group_sale_layout">
                 <p style="page-break-before:always;"> </p>
             </t>
@@ -159,13 +162,13 @@
                                 <tr class="border-black o_subtotal" style="">
                                     <td name="td_amount_untaxed_label"><strong>Subtotal</strong></td>
                                     <td name="td_amount_untaxed" class="text-end">
-                                        <span t-field="doc.amount_untaxed"/>
+                                        <span t-field="doc.amount_untaxed" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                                     </td>
                                 </tr>
                                 <tr t-if="doc.display_discount_to_customer" class="o_subtotal" style="">
-                                    <td name="td_display_discount"><strong>Computed discount</strong></td>
+                                    <td name="td_display_discount"><strong>Discount</strong></td>
                                     <td name="td_display_discount" class="text-end">
-                                        <span t-esc="'%.2f'% tot_Cdiscount"/> <span t-field="doc.currency_id.symbol"/>
+                                        <span t-esc="tot_Cdiscount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                                     </td>
                                 </tr>
 <!--                                &lt;!&ndash; Tax totals &ndash;&gt;-->
@@ -180,7 +183,7 @@
                                             </td>
                                             <td name="td_amount_by_group_3" class="text-end o_price_total">
                                                 <span t-esc="amount_by_group[1]"
-                                                    t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                                             </td>
                                         </t>
                                         <t t-else ="">
@@ -189,7 +192,7 @@
                                             </td>
                                             <td name="td_amount_by_group" class="text-end o_price_total">
                                                 <span t-esc="amount_by_group[1]"
-                                                    t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                                             </td>
                                         </t>
                                     </tr>
