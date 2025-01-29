@@ -36,6 +36,14 @@
                                     </div>
 
                                 </div>
+                                <div class="o_setting_left_pane" />
+                                <div class="o_setting_right_pane">
+                                    <label for="sao_orderline_order_field_id" class="mt16" />
+                                    <div class="text-muted">
+                                        Determine how orderlines are sorted on sale reports
+                                    </div>
+                                    <field name="sao_orderline_order_field_id" />
+                                </div>
                             </div>
                         </div>
                     </div>

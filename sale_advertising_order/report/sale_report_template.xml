@@ -6,7 +6,7 @@
                 Sale Report (Lines)
     -->
     <template id="report_saleorderlines_document_sao">
-        <t t-foreach="doc.order_line.sorted(key=lambda r: r.from_date)" t-as="page">
+        <t t-foreach="doc.order_line.sorted(key=doc.company_id.sao_orderline_order_field_id.name or None)" t-as="page">
 
             <t t-set="display_deadline" t-value="any(l.state in ('done','sale') for l in doc.order_line)"/>
 

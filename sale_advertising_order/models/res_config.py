@@ -10,3 +10,4 @@ class ResConfigSettings(models.TransientModel):
 
     group_sale_customer_contact = fields.Boolean("Contact Person", implied_group='sale_advertising_order.group_ads_contact_person')
     show_actual_unit_price = fields.Boolean("Show actual unit price", related="company_id.show_actual_unit_price", readonly=False)
+    sao_orderline_order_field_id = fields.Many2one(related="company_id.sao_orderline_order_field_id", readonly=False)
