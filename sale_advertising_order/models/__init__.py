@@ -4,6 +4,7 @@
 
 
 from . import res_config
+from . import res_company
 from . import partner
 from . import product
 from . import issue

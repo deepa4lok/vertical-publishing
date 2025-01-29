@@ -26,6 +26,16 @@
                                     </div>
 
                                 </div>
+                                <div class="o_setting_left_pane">
+                                    <field name="show_actual_unit_price"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="show_actual_unit_price"/>
+                                    <div class="text-muted">
+                                        Show actual unit price on sale reports. Note this column is always hidden for advertising agencies
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>

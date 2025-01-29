@@ -22,7 +22,7 @@
                                 >Quantity</strong></th>
                         <th name="th_price_unit" class="text-end" t-if="doc.display_discount_to_customer">
                             <strong>Unit Price</strong></th>
-                        <th name="th_actprice_unit" class="text-end" t-if="not doc.advertising_agency">
+                        <th name="th_actprice_unit" class="text-end" t-if="not doc.advertising_agency and doc.company_id.show_actual_unit_price">
                             <strong>Actual Unit Price</strong></th>
                         <th name="th_comdisc" class="text-end" t-if="doc.display_discount_to_customer">
                             <strong>Discount</strong></th>
@@ -51,7 +51,7 @@
                             <td t-if="doc.display_discount_to_customer" class="text-end">
                                 <span t-field="l.price_unit" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
-                            <td t-if="not doc.advertising_agency" class="text-end">
+                            <td t-if="not doc.advertising_agency and doc.company_id.show_actual_unit_price" class="text-end">
                                 <span t-field="l.actual_unit_price" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                             <td t-if="doc.display_discount_to_customer" class="text-end">
