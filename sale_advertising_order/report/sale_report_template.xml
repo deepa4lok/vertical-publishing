@@ -25,7 +25,7 @@
                         <th name="th_actprice_unit" class="text-end" t-if="not doc.advertising_agency">
                             <strong>Actual Unit Price</strong></th>
                         <th name="th_comdisc" class="text-end" t-if="doc.display_discount_to_customer">
-                            <strong>Discount(%)</strong></th>
+                            <strong>Discount</strong></th>
                         <th name="th_advagency" class="text-end" t-if="doc.advertising_agency">
                             <strong>SBAD</strong></th>
                         <th name="th_subtot" class="text-end">
@@ -55,7 +55,7 @@
                                 <span t-field="l.actual_unit_price" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                             <td t-if="doc.display_discount_to_customer" class="text-end">
-                                <span t-field="l.computed_discount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                <span t-field="l.computed_discount" /><span>%</span>
                             </td>
                             <td t-if="doc.advertising_agency" class="text-end">
                                 <span t-field="l.subtotal_before_agency_disc" /> %

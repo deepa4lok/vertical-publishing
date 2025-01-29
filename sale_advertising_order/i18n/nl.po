@@ -128,8 +128,8 @@ msgstr "<strong>Editie</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorderlines_document_sao
-msgid "<strong>Discount(%)</strong>"
-msgstr "<strong>Korting(%)</strong>"
+msgid "<strong>Discount</strong>"
+msgstr "<strong>Korting</strong>"
 
 #. module: sale_advertising_order
 #: model_terms:ir.ui.view,arch_db:sale_advertising_order.report_saleorder_document_sao
@@ -877,13 +877,9 @@ msgstr "Omschrijving"
 
 #. module: sale_advertising_order
 #: model:ir.model.fields,field_description:sale_advertising_order.field_account_move_line__computed_discount
+#: model:ir.model.fields,field_description:sale_advertising_order.field_sale_order_line__computed_discount
 msgid "Discount"
 msgstr "Korting"
-
-#. module: sale_advertising_order
-#: model:ir.model.fields,field_description:sale_advertising_order.field_sale_order_line__computed_discount
-msgid "Discount (%)"
-msgstr "Korting (%)"
 
 #. module: sale_advertising_order
 #: model:ir.model,name:sale_advertising_order.model_discount_reason

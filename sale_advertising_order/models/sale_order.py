@@ -706,7 +706,7 @@ class SaleOrderLine(models.Model):
                                      default=0.0, readonly=True)
     comb_list_price = fields.Monetary(compute='_multi_price', string='Combined_List Price', default=0.0, store=True,
                                       digits='Account')
-    computed_discount = fields.Float(string='Discount (%)', digits='Discount', default=0.0)
+    computed_discount = fields.Float(string='Discount', digits='Discount', default=0.0)
     subtotal_before_agency_disc = fields.Monetary(string='Subtotal before Commission', digits='Account')
     price_edit = fields.Boolean(compute='_compute_price_edit', string='Price Editable')
 
