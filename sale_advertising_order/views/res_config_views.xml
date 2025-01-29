@@ -36,6 +36,16 @@
                                     </div>
 
                                 </div>
+                                <div class="o_setting_left_pane">
+                                    <field name="sao_show_discount_reason"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="sao_show_discount_reason"/>
+                                    <div class="text-muted">
+                                        Show discount reason on sale reports. Note this is only shown if the sale order has enabled showing discounts in the first place
+                                    </div>
+
+                                </div>
                                 <div class="o_setting_left_pane" />
                                 <div class="o_setting_right_pane">
                                     <label for="sao_orderline_order_field_id" class="mt16" />

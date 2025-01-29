@@ -11,3 +11,4 @@ class ResCompany(models.Model):
         default=lambda self: self.env.ref('sale.field_sale_order_line__sequence'),
         domain=[('model', '=', 'sale.order.line'), ('name', 'in', ('sequence', 'from_date', 'issue_date'))],
     )
+    sao_show_discount_reason = fields.Boolean('Display discount reason to customer')
