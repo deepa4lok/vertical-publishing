@@ -1,0 +1,6 @@
+<odoo>
+    <record id="product_category_ads_digital1" model="product.category">
+        <field name="name">Digital 1</field>
+        <field name="parent_id" ref="digital_advertising_category" />
+    </record>
+</odoo>

@@ -1,0 +1,6 @@
+<odoo>
+    <record id="attribute_value_title1" model="product.attribute.value">
+        <field name="name">Title 1</field>
+        <field name="attribute_id" ref="attribute_title" />
+    </record>
+</odoo>

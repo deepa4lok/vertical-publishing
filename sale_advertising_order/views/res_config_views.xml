@@ -26,6 +26,34 @@
                                     </div>
 
                                 </div>
+                                <div class="o_setting_left_pane">
+                                    <field name="show_actual_unit_price"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="show_actual_unit_price"/>
+                                    <div class="text-muted">
+                                        Show actual unit price on sale reports. Note this column is always hidden for advertising agencies
+                                    </div>
+
+                                </div>
+                                <div class="o_setting_left_pane">
+                                    <field name="sao_show_discount_reason"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="sao_show_discount_reason"/>
+                                    <div class="text-muted">
+                                        Show discount reason on sale reports. Note this is only shown if the sale order has enabled showing discounts in the first place
+                                    </div>
+
+                                </div>
+                                <div class="o_setting_left_pane" />
+                                <div class="o_setting_right_pane">
+                                    <label for="sao_orderline_order_field_id" class="mt16" />
+                                    <div class="text-muted">
+                                        Determine how orderlines are sorted on sale reports
+                                    </div>
+                                    <field name="sao_orderline_order_field_id" />
+                                </div>
                             </div>
                         </div>
                     </div>

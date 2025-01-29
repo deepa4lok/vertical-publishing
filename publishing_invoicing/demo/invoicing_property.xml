@@ -1,0 +1,7 @@
+<odoo>
+    <record id="invoicing_property_1" model="invoicing.property">
+        <field name="name">Invoicing property 1</field>
+        <field name="selected_invoicing_property_timing">inv_per_line_adv_print</field>
+        <field name="selected_invoicing_property_layout">group_by_order</field>
+    </record>
+</odoo>

@@ -6,7 +6,7 @@
                 Sale Report (Lines)
     -->
     <template id="report_saleorderlines_document_sao">
-        <t t-foreach="doc.order_line.sorted(key=lambda r: r.from_date)" t-as="page">
+        <t t-foreach="doc.order_line.sorted(key=doc.company_id.sao_orderline_order_field_id.name or None)" t-as="page">
 
             <t t-set="display_deadline" t-value="any(l.state in ('done','sale') for l in doc.order_line)"/>
 
@@ -22,10 +22,10 @@
                                 >Quantity</strong></th>
                         <th name="th_price_unit" class="text-end" t-if="doc.display_discount_to_customer">
                             <strong>Unit Price</strong></th>
-                        <th name="th_actprice_unit" class="text-end" t-if="not doc.advertising_agency">
+                        <th name="th_actprice_unit" class="text-end" t-if="not doc.advertising_agency and doc.company_id.show_actual_unit_price">
                             <strong>Actual Unit Price</strong></th>
                         <th name="th_comdisc" class="text-end" t-if="doc.display_discount_to_customer">
-                            <strong>Discount(%)</strong></th>
+                            <strong>Discount</strong></th>
                         <th name="th_advagency" class="text-end" t-if="doc.advertising_agency">
                             <strong>SBAD</strong></th>
                         <th name="th_subtot" class="text-end">
@@ -51,11 +51,11 @@
                             <td t-if="doc.display_discount_to_customer" class="text-end">
                                 <span t-field="l.price_unit" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
-                            <td t-if="not doc.advertising_agency" class="text-end">
+                            <td t-if="not doc.advertising_agency and doc.company_id.show_actual_unit_price" class="text-end">
                                 <span t-field="l.actual_unit_price" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                             <td t-if="doc.display_discount_to_customer" class="text-end">
-                                <span t-field="l.computed_discount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                <span t-field="l.computed_discount" /><span>%</span>
                             </td>
                             <td t-if="doc.advertising_agency" class="text-end">
                                 <span t-field="l.subtotal_before_agency_disc" /> %
@@ -65,9 +65,15 @@
                             </td>
                         </tr>
                         <t>
-                            <tr t-if="l.ad_number">
+                            <tr t-if="l.ad_number or doc.company_id.sao_show_discount_reason and doc.display_discount_to_customer and l.discount_reason_id">
                                 <td></td>
-                                <td colspan="2" style="font-size:11px;font-style:italic;"><span style="font-weight:bold;">Reference : </span><span t-field="l.ad_number"/></td>
+                                <td t-if="l.ad_number" colspan="2" style="font-size:11px;font-style:italic;"><span style="font-weight:bold;">Reference : </span><span t-field="l.ad_number"/></td>
+                                <td t-if="not l.ad_number" colspan="2" />
+                                <td t-if="l.product_id" />
+                                <td />
+                                <td t-if="doc.display_discount_to_customer" />
+                                <td t-if="not doc.advertising_agency and doc.company_id.show_actual_unit_price" />
+                                <td t-if="doc.company_id.sao_show_discount_reason and doc.display_discount_to_customer and l.discount_reason_id" style="font-size:11px;font-style:italic;" class="text-end"><span t-field="l.discount_reason_id.name" /></td>
                             </tr>
                         </t>
                     </t>
