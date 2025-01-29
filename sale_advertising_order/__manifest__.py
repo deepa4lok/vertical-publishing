@@ -67,7 +67,13 @@ This module allows you to use Sales Management to run your advertising sales
              ],
     'qweb': [
     ],
-    'demo': [],
+    'demo': [
+        "demo/discount_reason.xml",
+        "demo/product_attribute_value.xml",
+        "demo/product_category.xml",
+        "demo/product_template.xml",
+        "demo/sale_advertising_issue.xml",
+    ],
     'installable': True,
     'license': 'LGPL-3',
 }
