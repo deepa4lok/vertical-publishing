@@ -20,7 +20,7 @@
                         <th name="th_product" class="text-start"><strong>Product</strong></th>
                         <th name="th_quantity" class="text-end"><strong
                                 >Quantity</strong></th>
-                        <th name="th_price_unit" class="text-end" t-if="doc.display_discount_to_customer">
+                        <th name="th_price_unit" class="text-end">
                             <strong>Unit Price</strong></th>
                         <th name="th_actprice_unit" class="text-end" t-if="not doc.advertising_agency and doc.company_id.show_actual_unit_price">
                             <strong>Actual Unit Price</strong></th>
@@ -41,21 +41,25 @@
                             </td>
                             <td t-if="l.ad_class.date_type != 'validity'">
                                 <span t-field="l.issue_date"/></td>
-                            <t><td class="text-start"><span t-if="l.adv_issue and l.adv_issue.default_note" t-field="l.adv_issue.default_note"/><span t-if="l.adv_issue and not l.adv_issue.default_note" t-field="l.adv_issue.name"/></td></t>
+                            <td class="text-start">
+                                <span t-if="l.adv_issue and l.adv_issue.default_note" t-field="l.adv_issue.default_note"/><span t-if="l.adv_issue and not l.adv_issue.default_note" t-field="l.adv_issue.name"/>
+                                <div t-if="l.ad_number" style="font-size:11px;font-style:italic;"><span style="font-weight:bold;">Reference : </span><span t-field="l.ad_number"/></div>
+                            </td>
                             <td t-if="display_deadline"><span t-field="l.deadline"/></td>
                             <td class="text-start" t-if="l.product_id" ><span t-field="l.product_id.name"/></td>
                             <td class="text-end">
                                 <span t-esc="'%.2f'% l.product_uom_qty"/>
                                 <span t-field="l.product_uom" groups="product.group_uom"/>
                             </td>
-                            <td t-if="doc.display_discount_to_customer" class="text-end">
+                            <td class="text-end">
                                 <span t-field="l.price_unit" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                             <td t-if="not doc.advertising_agency and doc.company_id.show_actual_unit_price" class="text-end">
                                 <span t-field="l.actual_unit_price" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                             <td t-if="doc.display_discount_to_customer" class="text-end">
-                                <span t-field="l.computed_discount" /><span>%</span>
+                                <span t-field="l.computed_discount" t-options="{'precision': 2}" /><span>%</span>
+                                <div t-if="doc.company_id.sao_show_discount_reason and doc.display_discount_to_customer and l.discount_reason_id" style="font-size:11px;font-style:italic;"><span t-field="l.discount_reason_id.name" /></div>
                             </td>
                             <td t-if="doc.advertising_agency" class="text-end">
                                 <span t-field="l.subtotal_before_agency_disc" /> %
@@ -64,18 +68,6 @@
                                 <span t-field="l.price_subtotal" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                             </td>
                         </tr>
-                        <t>
-                            <tr t-if="l.ad_number or doc.company_id.sao_show_discount_reason and doc.display_discount_to_customer and l.discount_reason_id">
-                                <td></td>
-                                <td t-if="l.ad_number" colspan="2" style="font-size:11px;font-style:italic;"><span style="font-weight:bold;">Reference : </span><span t-field="l.ad_number"/></td>
-                                <td t-if="not l.ad_number" colspan="2" />
-                                <td t-if="l.product_id" />
-                                <td />
-                                <td t-if="doc.display_discount_to_customer" />
-                                <td t-if="not doc.advertising_agency and doc.company_id.show_actual_unit_price" />
-                                <td t-if="doc.company_id.sao_show_discount_reason and doc.display_discount_to_customer and l.discount_reason_id" style="font-size:11px;font-style:italic;" class="text-end"><span t-field="l.discount_reason_id.name" /></td>
-                            </tr>
-                        </t>
                     </t>
                 </tbody>
 
