@@ -1282,6 +1282,13 @@ class SaleOrderLine(models.Model):
             res['from_date'] = self.from_date
             res['to_date'] = self.to_date
             res['issue_date'] = self.issue_date
+            # support account_invoice_start_end_dates without depending on it
+            move_line_fields = self.env['account.move.line']._fields
+            if 'end_date' in move_line_fields and 'start_date' in move_line_fields:
+                res.update(
+                    end_date=self.to_date,
+                    start_date=self.from_date,
+                )
         else:
             res['so_line_id'] = self.id
 
