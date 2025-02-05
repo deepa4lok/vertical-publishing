@@ -41,6 +41,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
     def _prepare_invoice(self, keydict, lines, invoice_date, posting_date):
         ref = self.env.ref
         partner = keydict['partner_id']
+        currency = keydict.get('currency') or partner.property_product_pricelist.currency_id
         published_customer = keydict['published_customer']
         payment_mode = keydict['payment_mode_id']
         customer_contact = keydict['customer_contact_id']
@@ -68,6 +69,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
                                else partner.bank_ids and partner.bank_ids[0].id or False,
             'sale_type_id': ref('sale_advertising_order.ads_sale_type').id,
             'ref': keydict['client_order_ref'],
+            'currency_id': currency.id,
         }
         return vals
 
@@ -127,6 +129,7 @@ class AdOrderLineMakeInvoice(models.TransientModel):
                 'payment_term_id': line.order_id.payment_term_id.id,
                 'company_id': line.order_id.company_id.id,
                 'client_order_ref': line.order_id.client_order_ref,
+                'currency': line.order_id.currency_id,
             }
             key, keydict = self.modify_key(key, keydict, line)
 
