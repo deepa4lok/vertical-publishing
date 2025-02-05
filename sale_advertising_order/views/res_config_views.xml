@@ -54,6 +54,14 @@
                                     </div>
                                     <field name="sao_orderline_order_field_id" />
                                 </div>
+                                <div class="o_setting_left_pane" />
+                                <div class="o_setting_right_pane">
+                                    <label for="sao_split_line_state" class="mt16" />
+                                    <div class="text-muted">
+                                        Determine in which state order lines should be split
+                                    </div>
+                                    <field name="sao_split_line_state" />
+                                </div>
                             </div>
                         </div>
                     </div>

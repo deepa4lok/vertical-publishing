@@ -278,33 +278,18 @@ class SaleOrder(models.Model):
             if partner.sale_warn == 'block':
                 raise UserError(_(partner.sale_warn_msg))
 
-        result = super(SaleOrder, self).create(vals)
+        result = super().create(vals)
 
-        # multi-split only works with order.create not order_line.create,
-        # due to removing old one and creating new ones
-        olines = []
-        for line in result.order_line:
-            if line.multi_line:
-                olines.append(line.id)
-                continue
-        if not olines == []:
-            self.env['sale.order.line.create.multi.lines'].create_multi_from_order_lines(
-                orderlines=olines, orders=result)
+        result._sao_split_multi_lines()
+
         return result
 
     def write(self, vals):
-        result = super(SaleOrder, self).write(vals)
+        result = super().write(vals)
 
-        for order in self:
-            olines = []
-            for line in order.order_line:
-                if line.multi_line:
-                    olines.append(line.id)
-                    continue
-            if not olines == []:
-                list = self.env['sale.order.line.create.multi.lines'].create_multi_from_order_lines(
-                    orderlines=olines, orders=order)
-                newlines = self.env['sale.order.line'].browse(list)
+        if 'state' or 'line_ids' in vals:
+            self._sao_split_multi_lines()
+
         return result
 
 
@@ -446,6 +431,17 @@ class SaleOrder(models.Model):
     #         'target': 'new',
     #         'context': ctx,
     #     }
+
+    def _sao_split_multi_lines(self):
+        """
+        Split lines with multi=True if order is in the company's sao_split_line_state 
+        """
+        for this in self:
+            if this.state == this.company_id.sao_split_line_state:
+                self.env['sale.order.line.create.multi.lines'].with_context(
+                    active_model=self._name, active_id=this.id, active_ids=this.ids,
+                ).create_multi_lines(raise_exception=False)
+
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"

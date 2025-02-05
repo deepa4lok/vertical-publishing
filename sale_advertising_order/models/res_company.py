@@ -12,3 +12,7 @@ class ResCompany(models.Model):
         domain=[('model', '=', 'sale.order.line'), ('name', 'in', ('sequence', 'from_date', 'issue_date'))],
     )
     sao_show_discount_reason = fields.Boolean('Display discount reason to customer')
+    sao_split_line_state = fields.Selection(selection=lambda self: self._sao_split_line_state_selection(), string='Sale order state for multiline split', default='draft')
+
+    def _sao_split_line_state_selection(self):
+        return self.env['sale.order']._fields['state'].selection
