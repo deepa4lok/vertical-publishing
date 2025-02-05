@@ -13,3 +13,4 @@ class ResConfigSettings(models.TransientModel):
     sao_show_discount_reason = fields.Boolean(related="company_id.sao_show_discount_reason", readonly=False)
     sao_orderline_order_field_id = fields.Many2one(related="company_id.sao_orderline_order_field_id", readonly=False)
     sao_split_line_state = fields.Selection(related="company_id.sao_split_line_state", readonly=False)
+    sao_split_lines_in_report = fields.Boolean(related="company_id.sao_split_lines_in_report", readonly=False)

@@ -1293,6 +1293,20 @@ class SaleOrderLine(models.Model):
     # FIXME:
     # TODO: Create, Write & Unlink ==> Seems unnecessary: Need to check all cases to validate the same
 
+    def _sao_expand_multi_for_report(self):
+        """
+        Yield lines or new() object with split values depending on company configuration
+        """
+        MultiLineWizard = self.env['sale.order.line.create.multi.lines']
+        for this in self:
+            if not this.multi_line or not this.order_id.company_id.sao_split_lines_in_report:
+                yield this
+            else:
+                for issue_product in this.issue_product_ids:
+                    split_line_default = MultiLineWizard._prepare_default_vals_copy(this, issue_product)
+                    yield self.new(this.copy_data(default=split_line_default)[0])
+
+
 class OrderLineAdvIssuesProducts(models.Model):
     _name = "sale.order.line.issues.products"
     _description = "Advertising Order Line Advertising Issues"

@@ -46,6 +46,12 @@
                                     </div>
 
                                 </div>
+                                <div class="o_setting_left_pane">
+                                    <field name="sao_split_lines_in_report"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="sao_split_lines_in_report"/>
+                                </div>
                                 <div class="o_setting_left_pane" />
                                 <div class="o_setting_right_pane">
                                     <label for="sao_orderline_order_field_id" class="mt16" />
