@@ -37,6 +37,16 @@
 
                                 </div>
                                 <div class="o_setting_left_pane">
+                                    <field name="sao_show_manual_approval_unconditionally"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="sao_show_manual_approval_unconditionally"/>
+                                    <div class="text-muted">
+                                        Always show the signature box on sale reports, regardless of their stage
+                                    </div>
+                                </div>
+
+                                <div class="o_setting_left_pane">
                                     <field name="sao_show_discount_reason"/>
                                 </div>
                                 <div class="o_setting_right_pane">
