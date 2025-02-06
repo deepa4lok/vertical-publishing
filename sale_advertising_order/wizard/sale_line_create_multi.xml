@@ -1,0 +1,14 @@
+<odoo>
+    <record id="action_sale_line_create_multi" model="ir.actions.server">
+        <field name="name">Split multi lines</field>
+        <field name="state">code</field>
+        <field name="model_id" ref="sale.model_sale_order" />
+        <field name="code">
+            env['sale.order.line.create.multi.lines'].with_context(
+                active_model=model._name, active_id=record.id, active_ids=records.ids
+            ).create_multi_lines()
+        </field>
+        <field name="binding_model_id" ref="sale.model_sale_order" />
+        <field name="binding_type">action</field>
+    </record>
+</odoo>

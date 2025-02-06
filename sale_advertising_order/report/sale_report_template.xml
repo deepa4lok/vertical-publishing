@@ -34,8 +34,8 @@
                 </thead>
 
                 <tbody class="sale_tbody">
-                    <t t-foreach="doc.order_line" t-as="l">
-                        <tr>
+                    <t t-foreach="doc.order_line" t-as="line">
+                        <tr t-foreach="line._sao_expand_multi_for_report()" t-as="l">
                             <td t-if="l.ad_class.date_type == 'validity'">
                                 <span t-field="l.from_date"/><span> - </span><span t-field="l.to_date"/>
                             </td>

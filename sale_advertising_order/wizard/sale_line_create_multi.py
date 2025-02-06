@@ -11,7 +11,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
     _name = "sale.order.line.create.multi.lines"
     _description = "Sale OrderLine Create Multi"
     
-    def create_multi_lines(self):
+    def create_multi_lines(self, raise_exception=True):
         context = self._context
         model = context.get('active_model', False)
         n = 0
@@ -26,10 +26,13 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                     all_lines.append(ol.id)
                     n += 1
             if n == 0:
-                raise UserError(_
-                        ('There are no Sales Order Lines with Multi Lines in '
-                         'the selected Sales Orders.'))
-            self.create_multi_from_order_lines(orderlines=all_lines, orders=order_ids)
+                if raise_exception:
+                    raise UserError(_(
+                        'There are no Sales Order Lines with Multi Lines in '
+                        'the selected Sales Orders.'
+                    ))
+            else:
+                return self.create_multi_from_order_lines(orderlines=all_lines, orders=order_ids)
 
         elif model and model == 'sale.order.line':
             line_ids = context.get('active_ids', [])
@@ -41,8 +44,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 raise UserError(_('There are no Sales Order Lines with '
                                   'Multi Lines in the selection.'))
             orders = self.env['sale.order'].search([('id','in', all_lines.mapped('order_id'))])
-            self.create_multi_from_order_lines(orderlines=all_lines.ids, orders=orders)
-        return
+            return self.create_multi_from_order_lines(orderlines=all_lines.ids, orders=orders)
 
     
     def create_multi_from_order_lines(self, orderlines=[], orders=None):
