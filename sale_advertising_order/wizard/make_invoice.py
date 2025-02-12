@@ -189,24 +189,11 @@ class AdOrderLineMakeInvoice(models.TransientModel):
         if fpos:
             account = fpos.map_account(account)
         
-        res = {
+        return line._prepare_invoice_line(**{
             'name': line.title.name or "/",
-            'sequence': line.sequence,
             'account_id': account.id,
-            'price_unit': line.actual_unit_price,
+            # TODO: why not qty_to_invoice?
             'quantity': line.product_uom_qty,
-            'discount': line.discount,
-            'product_uom_id': line.product_uom.id,
-            'product_id': line.product_id and line.product_id.id or False,
-            'tax_ids': [(6, 0, line.tax_id.ids or [])],
-            'analytic_distribution' : {line.adv_issue.analytic_account_id.id: 100},
             'analytic_tag_ids': [(6, 0, line.analytic_tag_ids.ids or [])],
-            'so_line_id': line.id,
-            # 'computed_discount': line.computed_discount, # FIXME?
-            'sale_line_ids': [(6, 0, [line.id])],
-            'from_date': line.from_date,
-            'to_date': line.to_date,
-            'issue_date': line.issue_date,
-        }
-        return res
+        })
 
