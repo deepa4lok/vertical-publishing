@@ -72,6 +72,7 @@ This module allows you to use Sales Management to run your advertising sales
         "demo/product_attribute_value.xml",
         "demo/product_category.xml",
         "demo/product_template.xml",
+        "demo/res_partner.xml",
         "demo/sale_advertising_issue.xml",
     ],
     'installable': True,
