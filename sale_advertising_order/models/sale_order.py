@@ -329,7 +329,7 @@ class SaleOrder(models.Model):
             currency = order.currency_id or order.company_id.currency_id
             fmt = partial(formatLang, self.with_context(lang=order.partner_id.lang).env, currency_obj=currency)
             res = {}
-            for line in order.order_line:
+            for line in order.order_line._sao_expand_multi_for_report():
                 discount = 0.0
                 # At this point, it will always be Single Edition:
                 nn = True if order.nett_nett or line.nett_nett else False
