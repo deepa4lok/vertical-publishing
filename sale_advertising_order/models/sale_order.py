@@ -8,7 +8,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from datetime import datetime, timedelta
 from odoo.tools.translate import unquote
-from odoo.tools.float_utils import float_is_zero
+from odoo.tools.float_utils import float_is_zero, float_round
 
 from functools import partial
 from odoo.tools.misc import formatLang
@@ -455,10 +455,10 @@ class SaleOrderLine(models.Model):
         Compute the amounts of the SO line.
         """
         super(SaleOrderLine, self.filtered(lambda record: record.advertising != True))._compute_amount()
-        precision = self.env['decimal.precision'].precision_get('Product Price') or 4
+        price_precision = self.env['decimal.precision'].precision_get('Product Price') or 4
+        discount_precision = self.env['decimal.precision'].precision_get('Discount') or 6
 
         for line in self.filtered('advertising'):
-            currency_round = line.currency_id.round
             nn = True if line.order_id.nett_nett or line.nett_nett else False
             comp_discount = line.computed_discount or 0.0
             price_unit = line.price_unit or 0.0
@@ -472,14 +472,14 @@ class SaleOrderLine(models.Model):
 
             # Single Edition:
             if not line.multi_line:
-                if float_is_zero(price_unit, precision) or float_is_zero(qty, precision):
+                if float_is_zero(price_unit, price_precision) or float_is_zero(qty, price_precision):
                     unit_price = 0.0
                     comp_discount = 0.0
                 else:
-                    comp_discount = currency_round((1.0 - subtotal_bad / (price_unit * qty)) * 100.0)
-                    unit_price = currency_round(price_unit * (1 - comp_discount / 100))
+                    comp_discount = float_round((1.0 - subtotal_bad / (price_unit * qty)) * 100.0, discount_precision)
+                    unit_price = float_round(price_unit * (1 - comp_discount / 100), price_precision)
 
-                price = currency_round(unit_price * (1 - discount / 100.0))
+                price = float_round(unit_price * (1 - discount / 100.0), price_precision)
 
                 taxes = line.tax_id.compute_all(
                     price,
@@ -499,14 +499,14 @@ class SaleOrderLine(models.Model):
                 })
             else:
                 clp = line.comb_list_price
-                if not float_is_zero(clp, precision):
-                    comp_discount = currency_round((1.0 - subtotal_bad / clp) * 100.0)
+                if not float_is_zero(clp, discount_precision):
+                    comp_discount = float_round((1.0 - subtotal_bad / clp) * 100.0, discount_precision)
                 else:
                     comp_discount = 0.0
                 unit_price = 0.0
                 price_unit = 0.0
 
-                price = currency_round(subtotal_bad * (1 - discount / 100.0))
+                price = float_round(subtotal_bad * (1 - discount / 100.0), price_precision)
 
                 taxes = line.tax_id.compute_all(price, line.order_id.currency_id, quantity=1,
                                                 product=line.product_template_id, partner=line.order_id.partner_id)
@@ -696,10 +696,9 @@ class SaleOrderLine(models.Model):
     price_unit_dummy = fields.Float(related='price_unit', string='Unit Price', readonly=True)
     actual_unit_price = fields.Float(compute='_compute_amount', string='Actual Unit Price', digits='Product Price',
                                      default=0.0, readonly=True)
-    comb_list_price = fields.Monetary(compute='_multi_price', string='Combined_List Price', default=0.0, store=True,
-                                      digits='Account')
+    comb_list_price = fields.Monetary(compute='_multi_price', string='Combined_List Price', default=0.0, store=True)
     computed_discount = fields.Float(string='Discount', digits='Discount', default=0.0)
-    subtotal_before_agency_disc = fields.Monetary(string='Subtotal before Commission', digits='Account')
+    subtotal_before_agency_disc = fields.Monetary(string='Subtotal before Commission')
     price_edit = fields.Boolean(compute='_compute_price_edit', string='Price Editable')
 
     nett_nett = fields.Boolean(string='Netto Netto Line')
