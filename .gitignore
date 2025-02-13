@@ -106,3 +106,6 @@ publishing_invoicing/wizard/redesign_adv_line_invoice.py
 
 # csv lock files
 *.csv#
+
+# vim swap files
+.*.swp
