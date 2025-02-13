@@ -26,7 +26,7 @@
                 <field name="deadline"/>
 <!--                <field name="ad_class" groups="base.group_no_one" optional="hide"/>-->
                 <field name="product_id"/>
-                <field name="name" groups="base.group_no_one" optional="hide"/>
+                <field name="name" optional="hide"/>
                 <field name="ad_number" optional="show"/>
                 <field name="page_reference" optional="show"/>
                 <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting"
@@ -104,7 +104,7 @@
                                context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
                                attrs="{'readonly': ['|', ('qty_invoiced', '&gt;', 0), ('deadline_passed','=', True)]}"
                                options="{'no_open': True,'no_create': True, 'no_create_edit': True}" required="1"/>
-                        <field name="product_id" invisible="1" groups="base.group_no_one"
+                        <field name="product_id" invisible="1"
                                context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
                                attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"
                                domain="['|','&amp;',('categ_id','=', ad_class),('product_template_attribute_value_ids','=', False),('product_tmpl_id','=', product_template_id)]"
@@ -113,15 +113,11 @@
                         <field name="qty_to_invoice" invisible="1"/>
                         <field name="nett_nett" />
                         <field name="multi_line" invisible="1"/>
-                        <field name="multi_line_number" readonly="True" groups="base.group_no_one"/>
+                        <field name="multi_line_number" readonly="True" invisible="True"/>
                         <field name="adv_issue" invisible="1"/>
 
                     </group>
                     <group name="price_section">
-                        <label for="customer_lead" invisible="1" groups="base.group_no_one"/>
-                        <div groups="base.group_no_one" invisible="1">
-                            <field name="customer_lead" class="oe_inline" groups="base.group_no_one"/> days
-                        </div>
                         <label for="product_uom_qty" string="Ordered Quantity"/>
                         <div>
                             <field name="product_uom_qty" class="oe_inline"
@@ -789,7 +785,7 @@
                                    context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
                                    attrs="{'readonly': ['|', ('qty_invoiced', '&gt;', 0), ('deadline_passed','=', True)]}"
                                    options="{'no_open': True,'no_create': True, 'no_create_edit': True}" required="1"/>
-                            <field name="product_id" invisible="1" groups="base.group_no_one"
+                            <field name="product_id" invisible="1"
                                    context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
                                    attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"
                                    domain="['|','&amp;',('categ_id','=', ad_class),('product_template_attribute_value_ids','=', False),('product_tmpl_id','=', product_template_id)]"
@@ -798,11 +794,12 @@
                             <field name="qty_to_invoice" invisible="1"/>
                             <field name="nett_nett" />
                             <field name="multi_line" invisible="1"/>
+                            <field name="multi_line_number" invisible="1"/>
                             <field name="multi_line_number" readonly="True" groups="base.group_no_one"/>
                             <field name="adv_issue" invisible="1"/>
                         </group>
                         <group name="price_section">
-                            <label for="customer_lead" invisible="1" groups="base.group_no_one"/>
+                            <label for="customer_lead" invisible="1" />
                             <div groups="base.group_no_one" invisible="1">
                                 <field name="customer_lead" class="oe_inline" groups="base.group_no_one"/> days
                             </div>
