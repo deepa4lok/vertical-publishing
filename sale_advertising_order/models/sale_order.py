@@ -8,6 +8,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from datetime import datetime, timedelta
 from odoo.tools.translate import unquote
+from odoo.tools.float_utils import float_is_zero
 
 from functools import partial
 from odoo.tools.misc import formatLang
@@ -457,12 +458,12 @@ class SaleOrderLine(models.Model):
         precision = self.env['decimal.precision'].precision_get('Product Price') or 4
 
         for line in self.filtered('advertising'):
+            currency_round = line.currency_id.round
             nn = True if line.order_id.nett_nett or line.nett_nett else False
             comp_discount = line.computed_discount or 0.0
             price_unit = line.price_unit or 0.0
             unit_price = line.actual_unit_price or 0.0
             qty = line.product_uom_qty or 0.0
-            csa = 0.0  # line.color_surcharge_amount or 0.0 -- deprecated
             subtotal_bad = line.subtotal_before_agency_disc or 0.0
             if line.order_id.partner_id.is_ad_agency and not nn:
                 discount = line.order_id.partner_id.agency_discount
@@ -471,19 +472,14 @@ class SaleOrderLine(models.Model):
 
             # Single Edition:
             if not line.multi_line:
-                if price_unit == 0.0:
-                    # unit_price = csa
+                if float_is_zero(price_unit, precision) or float_is_zero(qty, precision):
                     unit_price = 0.0
                     comp_discount = 0.0
-                elif price_unit > 0.0 and qty > 0.0:
-                    comp_discount = round((1.0 - float(subtotal_bad) / (float(price_unit) * float(qty))) * 100.0, 5)
-                    unit_price = round(float(price_unit) * (1 - float(comp_discount) / 100), precision)
+                else:
+                    comp_discount = currency_round((1.0 - subtotal_bad / (price_unit * qty)) * 100.0)
+                    unit_price = currency_round(price_unit * (1 - comp_discount / 100))
 
-                elif qty == 0.0:
-                    unit_price = 0.0
-                    comp_discount = 0.0
-
-                price = round(unit_price * (1 - (discount or 0.0) / 100.0), 5)
+                price = currency_round(unit_price * (1 - discount / 100.0))
 
                 taxes = line.tax_id.compute_all(
                     price,
@@ -502,19 +498,19 @@ class SaleOrderLine(models.Model):
                     'discount': discount,
                 })
             else:
-                clp = line.comb_list_price or 0.0
-                if clp > 0.0 and comp_discount > 0.0:
-                    comp_discount = round((1.0 - float(subtotal_bad) / (float(clp) + float(csa))) * 100.0, 2)
-                    unit_price = 0.0
-                    price_unit = 0.0
+                clp = line.comb_list_price
+                if not float_is_zero(clp, precision):
+                    comp_discount = currency_round((1.0 - subtotal_bad / clp) * 100.0)
                 else:
                     comp_discount = 0.0
-                    unit_price = 0.0
-                    price_unit = 0.0
+                unit_price = 0.0
+                price_unit = 0.0
 
-                price = round(subtotal_bad * (1 - (discount or 0.0) / 100.0), 4)
+                price = currency_round(subtotal_bad * (1 - discount / 100.0))
+
                 taxes = line.tax_id.compute_all(price, line.order_id.currency_id, quantity=1,
                                                 product=line.product_template_id, partner=line.order_id.partner_id)
+
                 line.update({
                     'price_tax': taxes['total_included'] - taxes['total_excluded'],
                     'price_total': taxes['total_included'],
