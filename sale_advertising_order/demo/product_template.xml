@@ -12,7 +12,7 @@
     <record id="product_template_digital2" model="product.template">
         <field name="name">Product digital 2 (multi issue)</field>
         <field name="categ_id" ref="product_category_ads_digital1" />
-        <field name="list_price">42</field>
+        <field name="list_price">4242</field>
     </record>
     <record id="product_template_digital2_attribute_title" model="product.template.attribute.line">
         <field name="product_tmpl_id" ref="product_template_digital2"/>
