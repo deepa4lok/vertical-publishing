@@ -13,9 +13,9 @@
                     <th width="10%">Reference</th>
                     <th width="10%" class="text-start">Product</th>
                     <th width="10%" class="text-end">Volume</th>
-                    <t t-if="display_unit_price or display_discount"><th width="5%" class="text-end">Unit Price</th></t>
-<!--                    <th width="5%" t-if="display_discount" class="text-end">SBAD</th>-->
-                    <th width="10%" t-if="display_discount" class="text-end">Agency Disc</th>
+                    <th t-if="display_unit_price or display_agency_discount or display_computed_discount" width="5%" class="text-end">Unit Price</th>
+                    <th width="5%" t-if="display_computed_discount" class="text-end">Discount</th>
+                    <th width="10%" t-if="display_agency_discount" class="text-end">Agency Disc</th>
                     <th width="10%" class="text-end">Tax Excluded Price</th>
                 </tr>
             </thead>
@@ -55,20 +55,17 @@
                         <span t-field="l.quantity"/>
                         <span t-field="l.product_uom_id"  groups="uom.group_uom"/>
                     </td>
-                    <t t-if="display_unit_price or display_discount">
+                    <t t-if="display_unit_price or display_agency_discount or display_computed_discount">
                         <td width="5%" class="text-end">
-                            <span t-field="l.price_unit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            <span t-if="not display_computed_discount" t-field="l.price_unit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            <span t-else="" t-field="sol.price_unit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                         </td>
                     </t>
-<!--                    <td width="5%" t-if="display_discount" class="text-end">-->
-<!--                        <t t-if="o.move_type != 'out_refund'">-->
-<!--                            <span t-field="l.subtotal_before_agency_disc"/>-->
-<!--                        </t>-->
-<!--                        <t t-if="o.move_type == 'out_refund'">-->
-<!--                            <span t-esc="l.subtotal_before_agency_disc" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
-<!--                        </t>-->
-<!--                    </td>-->
-                    <td width="10%" t-if="display_discount" class="text-end">
+                    <td width="5%" t-if="display_computed_discount" class="text-end">
+                        <t t-if="sol.computed_discount"><span t-field="sol.computed_discount" t-options="{'precision': 2}" /><span>%</span></t>
+                        <div t-if="sol.company_id.sao_show_discount_reason and sol.order_id.display_discount_to_customer and sol.discount_reason_id" style="font-size:11px;font-style:italic;"><span t-field="sol.discount_reason_id.name" /></div>
+                    </td>
+                    <td width="10%" t-if="display_agency_discount" class="text-end">
 <!--                        <t t-if="o.move_type != 'out_refund'"> FIXME: I see no difference-->
 <!--                            <t t-set="discount_amount" t-value="l.subtotal_before_agency_disc - l.price_subtotal"/>-->
 <!--                        </t>-->
@@ -80,8 +77,8 @@
 
                         <t t-set="discount_amount" t-value="l.subtotal_before_agency_disc - l.price_subtotal"/>
 
-                        <t t-esc="discount_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                        (<span t-esc="'%.2f'%(l.discount)"/>%)
+                        <span t-out="discount_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                        <div>(<span t-field="l.discount" t-options="{'precision': 2}" /><span>%</span>)</div>
                     </td>
                     <td width="10%" class="is-subtotal text-end">
                         <span t-if="o.move_type == 'out_refund'">-</span><span t-esc="l.price_subtotal"  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
@@ -118,7 +115,7 @@
             </t>
 
             <div class="mt-5">
-            <div class="page">
+            <div class="page" style="font-size: smaller">
                 <h2>
                     <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Invoice</span>
                     <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
@@ -158,11 +155,11 @@
                     </div>
                 </div>
 
-                <t t-set="display_discount" t-value="any(l.discount for l in o.invoice_line_ids)"/>
+                <t t-set="display_agency_discount" t-value="any(l.discount for l in o.invoice_line_ids)"/>
+                <t t-set="display_computed_discount" t-value="any(order.display_discount_to_customer for order in o.invoice_line_ids.sale_line_ids.order_id) and any(line.computed_discount for line in o.invoice_line_ids.sale_line_ids)"/>
+                <t t-set="display_unit_price" t-value="any([l.quantity>1 for l in o.invoice_line_ids])"/>
                 <t t-set="total_before_discount" t-value="sum([l.subtotal_before_agency_disc for l in o.invoice_line_ids])"/>
                 <t t-set="total_discount" t-value="sum([l.subtotal_before_agency_disc - l.price_subtotal for l in o.invoice_line_ids])"/>
-                <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
-                <t t-set="display_unit_price" t-value="any([l.quantity>1 for l in o.invoice_line_ids])"/>
 
                 <br/>
                 <br/>
@@ -179,17 +176,17 @@
 
                 <div class="clearfix mb-4">
                     <div id="total" class="row">
-                        <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
-                            <table class="table table-sm table-borderless" style="page-break-inside: avoid;">
+                        <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto; font-size: smaller">
+                            <table class="table table-sm table-borderless" style="page-break-inside: avoid">
 
-                                <tr t-if="display_discount" class="border-black" style="">
+                                <tr t-if="display_agency_discount" class="border-black" style="">
                                     <td><strong>Subtotal before agency discount</strong></td>
                                     <td class="text-end">
                                         <span t-esc="total_before_discount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                     </td>
                                 </tr>
 
-                                <tr t-if="display_discount"  style="">
+                                <tr t-if="display_agency_discount"  style="">
                                     <td><strong>Sum of agency discount</strong></td>
                                     <td class="text-end">
                                         <span t-esc="total_discount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
