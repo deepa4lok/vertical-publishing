@@ -1,0 +1,5 @@
+<odoo>
+    <record id="product.decimal_discount">
+        <field name="digits">6</field>
+    </record>
+</odoo>
