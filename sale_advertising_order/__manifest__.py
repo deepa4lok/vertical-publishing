@@ -36,8 +36,8 @@ This module allows you to use Sales Management to run your advertising sales
                 'sale', 'sale_order_type', 'partner_manual_rank',
                 'account', 'account_analytic_tag', 'partner_firstname',
                 'base_address_extended', 'report_xlsx_helper',
-                'account_payment_partner', 'calendar'
-
+                'account_payment_partner', 'calendar',
+                'web_action_conditionable',
                 ],
     'data': [
             "data/product_data.xml",
