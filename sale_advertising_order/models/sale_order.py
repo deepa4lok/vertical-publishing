@@ -6,7 +6,7 @@
 import json
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 from odoo.tools.translate import unquote
 from odoo.tools.float_utils import float_is_zero, float_round
 
@@ -330,7 +330,7 @@ class SaleOrder(models.Model):
             currency = order.currency_id or order.company_id.currency_id
             fmt = partial(formatLang, self.with_context(lang=order.partner_id.lang).env, currency_obj=currency)
             res = {}
-            for line in order.order_line:
+            for line in order.order_line._sao_expand_multi_for_report():
                 discount = 0.0
                 # At this point, it will always be Single Edition:
                 nn = True if order.nett_nett or line.nett_nett else False
@@ -442,6 +442,19 @@ class SaleOrder(models.Model):
                 self.env['sale.order.line.create.multi.lines'].with_context(
                     active_model=self._name, active_id=this.id, active_ids=this.ids,
                 ).create_multi_lines(raise_exception=False)
+
+    def _sao_get_lines_for_report(self):
+        """
+        Yield order lines sorted and expanded as per configuration
+        """
+        SaleOrderLine = self.env['sale.order.line'].browse([])
+        order_key = self.sudo().company_id.sao_orderline_order_field_id.name
+        if order_key and SaleOrderLine._fields[order_key].type == 'date':
+            order_key = lambda x: x or date.min
+        return sum(
+            (sum(line._sao_expand_multi_for_report(), SaleOrderLine) for line in self.order_line),
+            SaleOrderLine
+        ).sorted(key=order_key or None)
 
 
 class SaleOrderLine(models.Model):
@@ -717,6 +730,7 @@ class SaleOrderLine(models.Model):
     recurring = fields.Boolean('Recurring Advertisement')
     material_id = fields.Integer(compute='_get_materialID', readonly=True, store=True, string="Material ID")
     recurring_id = fields.Many2one('sale.order.line',string='Recurring Order Line',)
+    can_edit = fields.Boolean(compute='_compute_can_edit')
 
 
     @api.model
@@ -1301,6 +1315,9 @@ class SaleOrderLine(models.Model):
                     split_line_default = MultiLineWizard._prepare_default_vals_copy(this, issue_product)
                     yield self.new(this.copy_data(default=split_line_default)[0])
 
+    def _compute_can_edit(self):
+        for this in self:
+            this.can_edit = self.env.user.has_groups('sale_advertising_order.group_ads_traffic_user') and this.invoice_status not in ('invoiced', 'upselling')
 
 class OrderLineAdvIssuesProducts(models.Model):
     _name = "sale.order.line.issues.products"
