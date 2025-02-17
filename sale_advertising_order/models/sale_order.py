@@ -6,7 +6,7 @@
 import json
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 from odoo.tools.translate import unquote
 
 from functools import partial
@@ -441,6 +441,19 @@ class SaleOrder(models.Model):
                 self.env['sale.order.line.create.multi.lines'].with_context(
                     active_model=self._name, active_id=this.id, active_ids=this.ids,
                 ).create_multi_lines(raise_exception=False)
+
+    def _sao_get_lines_for_report(self):
+        """
+        Yield order lines sorted and expanded as per configuration
+        """
+        SaleOrderLine = self.env['sale.order.line'].browse([])
+        order_key = self.sudo().company_id.sao_orderline_order_field_id.name
+        if order_key and SaleOrderLine._fields[order_key].type == 'date':
+            order_key = lambda x: x or date.min
+        return sum(
+            (sum(line._sao_expand_multi_for_report(), SaleOrderLine) for line in self.order_line),
+            SaleOrderLine
+        ).sorted(key=order_key or None)
 
 
 class SaleOrderLine(models.Model):
