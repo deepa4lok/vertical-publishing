@@ -233,7 +233,7 @@
                                   <strong><p>Sincerely,</p></strong>
                                   <span t-field="doc.user_id.name"/>
                             </td>
-                            <td t-if="doc.state in ['draft','sent']">
+                            <td t-if="doc.state in ['draft','sent'] or doc.company_id.sao_show_manual_approval_unconditionally">
                                 <p><strong>For approval:</strong></p>
                                 <span/>
                                 <br/>
