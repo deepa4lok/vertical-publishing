@@ -44,6 +44,7 @@ This module allows you to use Sales Management to run your advertising sales
             "data/sale_order_type.xml",
             "data/config_data.xml",
             "data/mail_template_data.xml",
+            "data/decimal_precision.xml",
 
             "security/security.xml",
             "security/ir.model.access.csv",
