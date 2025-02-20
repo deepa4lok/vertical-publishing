@@ -1,40 +1,40 @@
 <odoo>
-    <record id="title1" model="sale.advertising.issue">
-        <field name="name">Title 1</field>
-        <field name="code">TITLE1</field>
-        <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
-        <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
-        <field name="product_attribute_value_id" ref="attribute_value_title1" />
-    </record>
-    <record id="issue1" model="sale.advertising.issue">
-        <field name="name">Issue 1</field>
-        <field name="code">ISSUE1</field>
-        <field name="parent_id" ref="title1" />
-        <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
-        <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
-        <field name="product_attribute_value_id" ref="attribute_value_title1" />
-    </record>
-    <record id="title2" model="sale.advertising.issue">
-        <field name="name">Title 2</field>
-        <field name="code">TITLE2</field>
-        <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
-        <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
-        <field name="product_attribute_value_id" ref="attribute_value_title2" />
-    </record>
-    <record id="issue2" model="sale.advertising.issue">
-        <field name="name">Issue 2</field>
-        <field name="code">ISSUE2</field>
-        <field name="parent_id" ref="title2" />
-        <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
-        <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
-        <field name="product_attribute_value_id" ref="attribute_value_title2" />
-    </record>
-    <record id="issue3" model="sale.advertising.issue">
-        <field name="name">Issue 3</field>
-        <field name="code">ISSUE3</field>
-        <field name="parent_id" ref="title2" />
-        <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
-        <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
-        <field name="product_attribute_value_id" ref="attribute_value_title2" />
-    </record>
+  <record id="title1" model="sale.advertising.issue">
+    <field name="name">Title 1</field>
+    <field name="code">TITLE1</field>
+    <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
+    <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
+    <field name="product_attribute_value_id" ref="attribute_value_title1" />
+  </record>
+  <record id="issue1" model="sale.advertising.issue">
+    <field name="name">Issue 1</field>
+    <field name="code">ISSUE1</field>
+    <field name="parent_id" ref="title1" />
+    <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
+    <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
+    <field name="product_attribute_value_id" ref="attribute_value_title1" />
+  </record>
+  <record id="title2" model="sale.advertising.issue">
+    <field name="name">Title 2</field>
+    <field name="code">TITLE2</field>
+    <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
+    <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
+    <field name="product_attribute_value_id" ref="attribute_value_title2" />
+  </record>
+  <record id="issue2" model="sale.advertising.issue">
+    <field name="name">Issue 2</field>
+    <field name="code">ISSUE2</field>
+    <field name="parent_id" ref="title2" />
+    <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
+    <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
+    <field name="product_attribute_value_id" ref="attribute_value_title2" />
+  </record>
+  <record id="issue3" model="sale.advertising.issue">
+    <field name="name">Issue 3</field>
+    <field name="code">ISSUE3</field>
+    <field name="parent_id" ref="title2" />
+    <field name="medium" eval="[Command.link(ref('product_category_ads_digital1'))]" />
+    <field name="analytic_account_id" ref="analytic.analytic_our_super_product" />
+    <field name="product_attribute_value_id" ref="attribute_value_title2" />
+  </record>
 </odoo>

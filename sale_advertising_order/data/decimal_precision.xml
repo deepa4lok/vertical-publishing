@@ -1,5 +1,5 @@
 <odoo>
-    <record id="product.decimal_discount" model="decimal.precision">
-        <field name="digits">6</field>
-    </record>
+  <record id="product.decimal_discount" model="decimal.precision">
+    <field name="digits">6</field>
+  </record>
 </odoo>

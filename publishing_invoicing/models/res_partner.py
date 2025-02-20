@@ -1,7 +1,9 @@
+from odoo import fields, models
 
-from odoo import api, fields, models, _
 
 class Partner(models.Model):
-    _inherit = 'res.partner'
+    _inherit = "res.partner"
 
-    invoicing_property_id = fields.Many2one('invoicing.property', string="Invoicing Property")
+    invoicing_property_id = fields.Many2one(
+        "invoicing.property", string="Invoicing Property"
+    )
