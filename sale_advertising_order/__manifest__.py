@@ -54,7 +54,7 @@
         "wizard/update_order_line_view.xml",
         "wizard/sale_line_create_multi.xml",
         "views/res_config_views.xml",
-        "views/partner_views.xml",
+        "views/res_partner.xml",
         "views/product_views.xml",
         "views/issue_views.xml",
         "views/sale_order_views.xml",
