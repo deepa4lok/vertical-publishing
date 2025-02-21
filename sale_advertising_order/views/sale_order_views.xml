@@ -359,6 +359,7 @@
                   force_save="1"
                   domain="[('parent_id','in', parent.title_ids)]"
                 />
+                <field name="issue_date" column_invisible="not parent.multi_line" />
                 <field
                   name="product_attribute_value_id"
                   force_save="1"
