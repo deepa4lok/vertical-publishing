@@ -1,4 +1,5 @@
 from odoo.tests.common import Form
+
 from .common import CommonSaleAdvertisingOrder
 
 
@@ -6,9 +7,11 @@ class TestSaleAdvertisingOrderOnchange(CommonSaleAdvertisingOrder):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.multi_issues = cls.env['sale.advertising.issue']
-        for i in range(10):
-            cls.multi_issues += cls.issue2.copy({'analytic_account_id': cls.issue2.analytic_account_id.id})
+        cls.multi_issues = cls.env["sale.advertising.issue"]
+        for _i in range(10):
+            cls.multi_issues += cls.issue2.copy(
+                {"analytic_account_id": cls.issue2.analytic_account_id.id}
+            )
         cls.product_template_digital2.list_price = 395
 
     def test_rounding(self):
@@ -22,8 +25,10 @@ class TestSaleAdvertisingOrderOnchange(CommonSaleAdvertisingOrder):
                 line_form.subtotal_before_agency_disc = 800
                 line_form.discount_reason_id = self.discount_reason
 
-        self.env['sale.order.line.create.multi.lines'].with_context(
-            active_model=self.order._name, active_id=self.order.id, active_ids=self.order.ids,
+        self.env["sale.order.line.create.multi.lines"].with_context(
+            active_model=self.order._name,
+            active_id=self.order.id,
+            active_ids=self.order.ids,
         ).create_multi_lines(raise_exception=False)
 
         self.assertEqual(len(self.order.order_line), 10)

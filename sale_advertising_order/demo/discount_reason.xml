@@ -1,5 +1,5 @@
 <odoo>
-    <record id="discount_reason1" model="discount.reason">
-        <field name="name">Discount reason 1</field>
-    </record>
+  <record id="discount_reason1" model="discount.reason">
+    <field name="name">Discount reason 1</field>
+  </record>
 </odoo>

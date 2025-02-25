@@ -1,17 +1,5 @@
-
-import logging
-
 from odoo import models
-# from odoo.tools.translate import translate
-
-from odoo.addons.report_xlsx_helper.report.report_xlsx_format import (
-    FORMATS,
-    XLS_HEADERS,
-)
-
-_logger = logging.getLogger(__name__)
-
-IR_TRANSLATION_NAME = "proof.number.delivery.list.xls"
+from odoo.addons.report_xlsx_helper.report import report_xlsx_format
 
 
 class ProofNumberDeliveryListXlsx(models.AbstractModel):
@@ -20,12 +8,12 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
     _description = "XLSX report for proof number delivery list."
 
     def _(self, src):
-        lang = self.env.context.get("lang", "en_US")
-        # val = translate(self.env.cr, IR_TRANSLATION_NAME, "report", lang, src) or src
+        self.env.context.get("lang", "en_US")
         val = src
         return val
 
     def _get_ws_params(self, workbook, data, pndls):
+        FORMATS = report_xlsx_format.FORMATS
 
         # XLSX Template
         col_specs = {
@@ -41,29 +29,36 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
             },
             "lastname": {
                 "header": {"value": self._("LAST NAME")},
-                "lines": {
-                    "value": self._render("line.proof_number_payer.lastname")
-                },
+                "lines": {"value": self._render("line.proof_number_payer.lastname")},
                 "width": 25,
             },
             "country_code": {
                 "header": {"value": self._("COUNTRY CODE")},
                 "lines": {
-                    "value": self._render("line.proof_number_payer.country_id.code or line.proof_number_payer.parent_id.country_id.code or ''")
+                    "value": self._render(
+                        "line.proof_number_payer.country_id.code or "
+                        "line.proof_number_payer.parent_id.country_id.code or ''"
+                    )
                 },
                 "width": 10,
             },
             "addr_zip": {
                 "header": {"value": self._("ADDRESS ZIP")},
                 "lines": {
-                    "value": self._render("line.proof_number_payer.zip or line.proof_number_payer.parent_id.zip or ''")
+                    "value": self._render(
+                        "line.proof_number_payer.zip or "
+                        "line.proof_number_payer.parent_id.zip or ''"
+                    )
                 },
                 "width": 10,
             },
             "house_num": {
                 "header": {"value": self._("HOUSE #")},
                 "lines": {
-                    "value": self._render("line.proof_number_payer.street_number or line.proof_number_payer.parent_id.street_number or ''")
+                    "value": self._render(
+                        "line.proof_number_payer.street_number or "
+                        "line.proof_number_payer.parent_id.street_number or ''"
+                    )
                 },
                 "width": 10,
             },
@@ -72,7 +67,10 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
                     "value": self._("ADDITION #"),
                 },
                 "lines": {
-                    "value": self._render("line.proof_number_payer.street_number2 or line.proof_number_payer.parent_id.street_number2 or ''")
+                    "value": self._render(
+                        "line.proof_number_payer.street_number2 or "
+                        "line.proof_number_payer.parent_id.street_number2 or ''"
+                    )
                 },
                 "width": 10,
             },
@@ -81,7 +79,10 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
                     "value": self._("ADDRESS STREET"),
                 },
                 "lines": {
-                    "value": self._render("line.proof_number_payer.street_name or line.proof_number_payer.parent_id.street_name or ''")
+                    "value": self._render(
+                        "line.proof_number_payer.street_name or "
+                        "line.proof_number_payer.parent_id.street_name or ''"
+                    )
                 },
                 "width": 18,
             },
@@ -91,7 +92,10 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
                     "format": FORMATS["format_theader_yellow_right"],
                 },
                 "lines": {
-                    "value": self._render("line.proof_number_payer.city or line.proof_number_payer.parent_id.city or ''")
+                    "value": self._render(
+                        "line.proof_number_payer.city or "
+                        "line.proof_number_payer.parent_id.city or ''"
+                    )
                 },
                 "width": 10,
             },
@@ -111,7 +115,10 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
                     "format": FORMATS["format_theader_yellow_right"],
                 },
                 "lines": {
-                    "value": self._render("line.proof_number_payer.name if line.proof_number_payer.parent_id else ''")
+                    "value": self._render(
+                        "line.proof_number_payer.name "
+                        "if line.proof_number_payer.parent_id else ''"
+                    )
                 },
                 "width": 18,
             },
@@ -121,15 +128,29 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
                     "format": FORMATS["format_theader_yellow_right"],
                 },
                 "lines": {
-                    "value": self._render("line.proof_number_payer.email or line.proof_number_payer.parent_id.email or ''")
+                    "value": self._render(
+                        "line.proof_number_payer.email or "
+                        "line.proof_number_payer.parent_id.email or ''"
+                    )
                 },
                 "width": 20,
             },
         }
 
-
-        wanted_list = ['papercode', 'custname', 'lastname', 'country_code', 'addr_zip', 'house_num', 'door_num'
-                     , 'addr_street', 'addr_city', 'number', 'con_person', 'email'] # self.env["proof.number.delivery.list"]._report_xlsx_fields()
+        wanted_list = [
+            "papercode",
+            "custname",
+            "lastname",
+            "country_code",
+            "addr_zip",
+            "house_num",
+            "door_num",
+            "addr_street",
+            "addr_city",
+            "number",
+            "con_person",
+            "email",
+        ]  # self.env["proof.number.delivery.list"]._report_xlsx_fields()
         title = self._("Proof Number Delivery List")
 
         return [
@@ -143,6 +164,8 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
         ]
 
     def _pndls_export(self, workbook, ws, ws_params, data, pndls):
+        FORMATS = report_xlsx_format.FORMATS
+        XLS_HEADERS = report_xlsx_format.XLS_HEADERS
 
         ws.set_landscape()
         ws.fit_to_pages(1, 0)
@@ -163,40 +186,18 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
         )
         ws.freeze_panes(row_pos, 0)
 
-        # Copies / Number:
-        # def _get_PDCopies(orderLine):
-        #     amount = 0
-        #     if not orderLine: return amount
-        #
-        #     SO = orderLine.order_id
-        #     _logger.info("\n\n\n _get_PDCopies ******************* order %s"%(orderLine.order_id.name))
-        #
-        #     customerID = SO.published_customer and SO.published_customer.id or False
-        #     payerID = SO.partner_id and SO.partner_id.id or False
-        #     _logger.info("\n\n\n _get_PDCopies ******************* Customer %s "
-        #                  "\n _get_PDCopies ******************* payerID %s"%(customerID, payerID))
-        #
-        #
-        #     # Adv Customer
-        #     if len(orderLine.proof_number_adv_customer.ids) > 0:
-        #         amount += orderLine.proof_number_amt_adv_customer
-        #
-        #     # Payer
-        #     if orderLine.proof_number_payer_id:
-        #         amount += orderLine.proof_number_amt_payer
-        #     return amount
-
         # Title / PaperCode
         def _get_titles(orderLine):
             title = []
-            if not orderLine: return ''
+            if not orderLine:
+                return ""
 
             for advtitle in orderLine.title_ids:
                 if advtitle.product_attribute_value_id:
                     title.append(advtitle.product_attribute_value_id.name)
             if orderLine.title.product_attribute_value_id:
                 title.append(orderLine.title.product_attribute_value_id.name)
-            title = ",".join(list(set(title))) if title else ' '
+            title = ",".join(list(set(title))) if title else " "
             return title
 
         for line in pndls:
@@ -208,9 +209,10 @@ class ProofNumberDeliveryListXlsx(models.AbstractModel):
                 row_pos,
                 ws_params,
                 col_specs_section="lines",
-                render_space={"line": line,
-                              "papercode": paperCode,
-                              # "pncopies": copies
-                              },
+                render_space={
+                    "line": line,
+                    "papercode": paperCode,
+                    # "pncopies": copies
+                },
                 default_format=FORMATS["format_tcell_left"],
             )

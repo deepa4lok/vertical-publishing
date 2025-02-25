@@ -1,4 +1,5 @@
 from odoo.tests.common import Form
+
 from .common import CommonSaleAdvertisingOrder
 
 
@@ -48,11 +49,15 @@ class TestSaleAdvertisingOrderOnchange(CommonSaleAdvertisingOrder):
                 self.assertEqual(line_form.comb_list_price, 8484)
 
         # check that computed discount survives splitting multi line
-        self.env['sale.order.line.create.multi.lines'].with_context(
-            active_model=self.order._name, active_id=self.order.id, active_ids=self.order.ids,
+        self.env["sale.order.line.create.multi.lines"].with_context(
+            active_model=self.order._name,
+            active_id=self.order.id,
+            active_ids=self.order.ids,
         ).create_multi_lines(raise_exception=False)
 
         self.assertEqual(len(self.order.order_line), 2)
-        self.assertEqual(self.order.order_line.mapped('computed_discount'), [50, 50])
-        self.assertEqual(self.order.order_line.mapped('subtotal_before_agency_disc'), [2121, 2121])
-        self.assertEqual(self.order.order_line.mapped('price_unit'), [4242, 4242])
+        self.assertEqual(self.order.order_line.mapped("computed_discount"), [50, 50])
+        self.assertEqual(
+            self.order.order_line.mapped("subtotal_before_agency_disc"), [2121, 2121]
+        )
+        self.assertEqual(self.order.order_line.mapped("price_unit"), [4242, 4242])

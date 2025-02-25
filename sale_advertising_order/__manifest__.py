@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -21,54 +20,50 @@
 #
 ##############################################################################
 {
-    'name': 'Sale Advertising Order',
-    'version': '16.0.9.2',
-    'category': 'Sale',
-    'description': """
-This module allows you to use Sales Management to run your advertising sales
-============================================================================================
-
-
-    """,
-    'author': "Deepa Venkatesh (DK), " "Willem Hulsof, The Open Source Company (TOSC)",
-    'website': 'http://www.tosc.nl',
-    'depends': [
-                'sale', 'sale_order_type', 'partner_manual_rank',
-                'account', 'account_analytic_tag', 'partner_firstname',
-                'base_address_extended', 'report_xlsx_helper',
-                'account_payment_partner', 'calendar',
-                'web_action_conditionable',
-                ],
-    'data': [
-            "data/product_data.xml",
-            "data/sale_order_type.xml",
-            "data/config_data.xml",
-            "data/mail_template_data.xml",
-            "data/decimal_precision.xml",
-
-            "security/security.xml",
-            "security/ir.model.access.csv",
-
-            "report/invoice_report_template.xml",
-            "report/sale_report_template.xml",
-            "report/proof_number_delivery_list_xslx.xml",
-            "report/report_indeellijst_list_views.xml",
-            "wizard/make_invoice_views.xml",
-            "wizard/update_order_line_view.xml",
-            "wizard/sale_line_create_multi.xml",
-            "views/res_config_views.xml",
-            "views/partner_views.xml",
-            "views/product_views.xml",
-            "views/issue_views.xml",
-            "views/sale_order_views.xml",
-            "views/account_invoice_views.xml",
-            "views/proof_delivery_list_views.xml",
-
-            "views/menu_views.xml",
-             ],
-    'qweb': [
+    "name": "Sale Advertising Order",
+    "version": "16.0.9.2.0",
+    "category": "Sale",
+    "author": "Deepa Venkatesh (DK), " "Willem Hulsof, The Open Source Company (TOSC)",
+    "website": "https://github.com/OCA/l10n-netherlands",
+    "depends": [
+        "sale",
+        "sale_order_type",
+        "partner_manual_rank",
+        "account",
+        "account_analytic_tag",
+        "partner_firstname",
+        "base_address_extended",
+        "report_xlsx_helper",
+        "account_payment_partner",
+        "calendar",
+        "web_action_conditionable",
     ],
-    'demo': [
+    "data": [
+        "data/product_data.xml",
+        "data/sale_order_type.xml",
+        "data/config_data.xml",
+        "data/mail_template_data.xml",
+        "data/decimal_precision.xml",
+        "security/security.xml",
+        "security/ir.model.access.csv",
+        "report/invoice_report_template.xml",
+        "report/sale_report_template.xml",
+        "report/proof_number_delivery_list_xslx.xml",
+        "report/report_indeellijst_list_views.xml",
+        "wizard/make_invoice_views.xml",
+        "wizard/update_order_line_view.xml",
+        "wizard/sale_line_create_multi.xml",
+        "views/res_config_views.xml",
+        "views/partner_views.xml",
+        "views/product_views.xml",
+        "views/issue_views.xml",
+        "views/sale_order_views.xml",
+        "views/account_invoice_views.xml",
+        "views/proof_delivery_list_views.xml",
+        "views/menu_views.xml",
+    ],
+    "qweb": [],
+    "demo": [
         "demo/discount_reason.xml",
         "demo/product_attribute_value.xml",
         "demo/product_category.xml",
@@ -76,7 +71,6 @@ This module allows you to use Sales Management to run your advertising sales
         "demo/res_partner.xml",
         "demo/sale_advertising_issue.xml",
     ],
-    'installable': True,
-    'license': 'LGPL-3',
+    "installable": True,
+    "license": "LGPL-3",
 }
-

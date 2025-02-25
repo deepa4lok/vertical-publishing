@@ -1,99 +1,98 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
-        <record id="res_config_settings_sao_view" model="ir.ui.view">
-            <field name="name">res.config.settings.view.inherit.sao</field>
-            <field name="model">res.config.settings</field>
-            <field name="priority" eval="65"/>
-            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[hasclass('settings')]" position="inside">
-                    <div class="app_settings_block" data-string="sao"
-                         string="Advertising Sales"
-                         data-key="sale_advertising_order"
-                         groups="sale_advertising_order.group_ads_traffic_user">
-                        <h2>Sale Advertising Order</h2>
-                        <div class="row mt16 o_settings_container" name="sao_setting_container">
-                            <div class="col-12 col-lg-6 o_setting_box"
-                                id="manage_sao">
-                                <div class="o_setting_left_pane">
-                                    <field name="group_sale_customer_contact"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label string="Contact Person" for="group_sale_customer_contact"/>
-                                    <div class="text-muted">
-                                        Use Contact Person in Sale Orders.
-                                    </div>
+  <record id="res_config_settings_sao_view" model="ir.ui.view">
+    <field name="name">res.config.settings.view.inherit.sao</field>
+    <field name="model">res.config.settings</field>
+    <field name="priority" eval="65" />
+    <field name="inherit_id" ref="base.res_config_settings_view_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//div[hasclass('settings')]" position="inside">
+        <div
+          class="app_settings_block"
+          data-string="sao"
+          string="Advertising Sales"
+          data-key="sale_advertising_order"
+          groups="sale_advertising_order.group_ads_traffic_user"
+        >
+          <h2>Sale Advertising Order</h2>
+          <div class="row mt16 o_settings_container" name="sao_setting_container">
+            <div class="col-12 col-lg-6 o_setting_box" id="manage_sao">
+              <div class="o_setting_left_pane">
+                <field name="group_sale_customer_contact" />
+              </div>
+              <div class="o_setting_right_pane">
+                <label string="Contact Person" for="group_sale_customer_contact" />
+                <div class="text-muted">Use Contact Person in Sale Orders.</div>
+              </div>
+              <div class="o_setting_left_pane">
+                <field name="show_actual_unit_price" />
+              </div>
+              <div class="o_setting_right_pane">
+                <label for="show_actual_unit_price" />
+                <div class="text-muted">
+                  Show actual unit price on sale reports. Note this column is always
+                  hidden for advertising agencies
+                </div>
+              </div>
+              <div class="o_setting_left_pane">
+                <field name="sao_show_manual_approval_unconditionally" />
+              </div>
+              <div class="o_setting_right_pane">
+                <label for="sao_show_manual_approval_unconditionally" />
+                <div class="text-muted">
+                  Always show the signature box on sale reports, regardless of their
+                  stage
+                </div>
+              </div>
 
-                                </div>
-                                <div class="o_setting_left_pane">
-                                    <field name="show_actual_unit_price"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="show_actual_unit_price"/>
-                                    <div class="text-muted">
-                                        Show actual unit price on sale reports. Note this column is always hidden for advertising agencies
-                                    </div>
+              <div class="o_setting_left_pane">
+                <field name="sao_show_discount_reason" />
+              </div>
+              <div class="o_setting_right_pane">
+                <label for="sao_show_discount_reason" />
+                <div class="text-muted">
+                  Show discount reason on sale reports. Note this is only shown if the
+                  sale order has enabled showing discounts in the first place
+                </div>
+              </div>
+              <div class="o_setting_left_pane">
+                <field name="sao_split_lines_in_report" />
+              </div>
+              <div class="o_setting_right_pane">
+                <label for="sao_split_lines_in_report" />
+              </div>
+              <div class="o_setting_left_pane" />
+              <div class="o_setting_right_pane">
+                <label for="sao_orderline_order_field_id" class="mt16" />
+                <div class="text-muted">
+                  Determine how orderlines are sorted on sale reports
+                </div>
+                <field name="sao_orderline_order_field_id" />
+              </div>
+              <div class="o_setting_left_pane" />
+              <div class="o_setting_right_pane">
+                <label for="sao_split_line_state" class="mt16" />
+                <div class="text-muted">
+                  Determine in which state order lines should be split
+                </div>
+                <field name="sao_split_line_state" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </xpath>
+    </field>
+  </record>
 
-                                </div>
-                                <div class="o_setting_left_pane">
-                                    <field name="sao_show_manual_approval_unconditionally"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="sao_show_manual_approval_unconditionally"/>
-                                    <div class="text-muted">
-                                        Always show the signature box on sale reports, regardless of their stage
-                                    </div>
-                                </div>
-
-                                <div class="o_setting_left_pane">
-                                    <field name="sao_show_discount_reason"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="sao_show_discount_reason"/>
-                                    <div class="text-muted">
-                                        Show discount reason on sale reports. Note this is only shown if the sale order has enabled showing discounts in the first place
-                                    </div>
-
-                                </div>
-                                <div class="o_setting_left_pane">
-                                    <field name="sao_split_lines_in_report"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="sao_split_lines_in_report"/>
-                                </div>
-                                <div class="o_setting_left_pane" />
-                                <div class="o_setting_right_pane">
-                                    <label for="sao_orderline_order_field_id" class="mt16" />
-                                    <div class="text-muted">
-                                        Determine how orderlines are sorted on sale reports
-                                    </div>
-                                    <field name="sao_orderline_order_field_id" />
-                                </div>
-                                <div class="o_setting_left_pane" />
-                                <div class="o_setting_right_pane">
-                                    <label for="sao_split_line_state" class="mt16" />
-                                    <div class="text-muted">
-                                        Determine in which state order lines should be split
-                                    </div>
-                                    <field name="sao_split_line_state" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </xpath>
-            </field>
-        </record>
-
-        <record id="action_sao_configuration" model="ir.actions.act_window">
-            <field name="name">Settings</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.config.settings</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="res_config_settings_sao_view" />
-            <field name="target">inline</field>
-            <field name="context">{'module' : 'sale_advertising_order', 'bin_size': False}</field>
-        </record>
-
-    </data>
+  <record id="action_sao_configuration" model="ir.actions.act_window">
+    <field name="name">Settings</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res.config.settings</field>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="res_config_settings_sao_view" />
+    <field name="target">inline</field>
+    <field name="context">
+      {'module' : 'sale_advertising_order', 'bin_size': False}
+    </field>
+  </record>
 </odoo>

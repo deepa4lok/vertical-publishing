@@ -1,9 +1,9 @@
 <odoo>
-    <record id="partner_ad_agency" model="res.partner">
-        <field name="name">Ad agency</field>
-        <field name="is_company" eval="True" />
-        <field name="is_customer" eval="True" />
-        <field name="is_ad_agency" eval="True" />
-        <field name="agency_discount">42</field>
-    </record>
+  <record id="partner_ad_agency" model="res.partner">
+    <field name="name">Ad agency</field>
+    <field name="is_company" eval="True" />
+    <field name="is_customer" eval="True" />
+    <field name="is_ad_agency" eval="True" />
+    <field name="agency_discount">42</field>
+  </record>
 </odoo>
