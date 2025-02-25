@@ -30,24 +30,15 @@ _logger = logging.getLogger(__name__)
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    @api.onchange("show_issue_date_filter")
+    @api.onchange("show_issue_date_filter", "title_ids", "title")
     def onchange_show_issue_date_filter(self):
         for ol in self:
             ol.issue_date_filter = ol.show_issue_date_filter
 
-    @api.depends("medium")
-    def _compute_issue_date_filter(self):
+    @api.depends("medium", "title_ids", "title")
+    def _compute_show_issue_date_filter(self):
         for ol in self:
-            if (
-                ol.medium
-                and ol.medium.id
-                == self.env.ref(
-                    "sale_advertising_order.magazine_advertising_category"
-                ).id
-            ):
-                ol.show_issue_date_filter = True
-            else:
-                ol.show_issue_date_filter = False
+            ol.show_issue_date_filter = ol.title_ids or ol.title
 
     ad_class_digital = fields.Boolean(
         compute="_compute_digital",
@@ -62,7 +53,7 @@ class SaleOrderLine(models.Model):
         string="Advertising Class Issue Link",
     )
 
-    show_issue_date_filter = fields.Boolean(compute="_compute_issue_date_filter")
+    show_issue_date_filter = fields.Boolean(compute="_compute_show_issue_date_filter")
     issue_date_filter = fields.Boolean(string="Issue Date >= Today")
 
     @api.depends("ad_class")

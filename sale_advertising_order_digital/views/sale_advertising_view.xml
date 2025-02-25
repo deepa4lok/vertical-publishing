@@ -31,7 +31,7 @@
         <field name="show_issue_date_filter" invisible="1" />
         <field
           name="issue_date_filter"
-          attrs="{'invisible':[('show_issue_date_filter', '=', False), '|', ('title', '=', False), ('title_ids', '=', [])]}"
+          attrs="{'invisible':[('show_issue_date_filter', '=', False)]}"
         />
       </field>
     </field>

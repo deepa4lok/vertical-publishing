@@ -63,3 +63,4 @@ class OrderLineAdvIssuesProducts(models.Model):
     page_reference = fields.Char("Reference of the Page", size=64)
     ad_number = fields.Char("External Reference", size=50)
     url_to_material = fields.Char("URL Material", size=64)
+    issue_date = fields.Date(related="adv_issue_id.issue_date")
