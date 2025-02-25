@@ -1068,25 +1068,25 @@ class SaleOrderLine(models.Model):
         return True
 
     def _prepare_invoice_line(self, **optional_values):
-        res = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
+        res = super()._prepare_invoice_line(**optional_values)
+
         if self.advertising:
             res["analytic_distribution"] = {self.adv_issue.analytic_account_id.id: 100}
-            res["so_line_id"] = self.id
             res["price_unit"] = self.actual_unit_price
             res["ad_number"] = self.ad_number
-            res["computed_discount"] = self.computed_discount  # FIXME: Need this?
+            res["computed_discount"] = self.computed_discount
             res["from_date"] = self.from_date
             res["to_date"] = self.to_date
             res["issue_date"] = self.issue_date
-            # support account_invoice_start_end_dates without depending on it
-            move_line_fields = self.env["account.move.line"]._fields
-            if "end_date" in move_line_fields and "start_date" in move_line_fields:
-                res.update(
-                    end_date=self.to_date,
-                    start_date=self.from_date,
-                )
-        else:
-            res["so_line_id"] = self.id
+
+        # support account_invoice_start_end_dates without depending on it
+        move_line_fields = self.env["account.move.line"]._fields
+        if "end_date" in move_line_fields and "start_date" in move_line_fields:
+            res.update(
+                end_date=self.to_date,
+                start_date=self.from_date,
+            )
+        res["so_line_id"] = self.id
 
         return res
 
