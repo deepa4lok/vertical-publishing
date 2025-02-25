@@ -22,6 +22,17 @@
           {"default_is_customer": is_customer, "default_is_supplier": is_supplier}
         </attribute>
       </xpath>
+      <button name="action_view_sale_order" position="after">
+        <button
+          class="oe_stat_button"
+          type="object"
+          name="action_view_sao_order"
+          groups="sale_advertising_order.group_ads_sales_user"
+          icon="fa-book"
+        >
+          <field string="Ad Orders" name="sao_order_count" widget="statinfo" />
+        </button>
+      </button>
     </field>
   </record>
 

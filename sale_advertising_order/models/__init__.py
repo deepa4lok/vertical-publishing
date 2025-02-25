@@ -4,7 +4,7 @@
 
 from . import res_config
 from . import res_company
-from . import partner
+from . import res_partner
 from . import product_template
 from . import product_product
 from . import product_category
