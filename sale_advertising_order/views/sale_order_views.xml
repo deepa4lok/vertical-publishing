@@ -454,8 +454,14 @@
           states="sale"
           groups="sale_advertising_order.group_ads_traffic_user"
         />
+        <button
+          name="action_refuse"
+          type="object"
+          states="approved1,sale"
+          string="Set to Quotation"
+          groups="sale_advertising_order.group_ads_sales_user"
+        />
       </xpath>
-
       <xpath expr="//button[@name='action_confirm']" position="replace" />
       <xpath expr="//button[@name='action_confirm']" position="replace">
         <button
