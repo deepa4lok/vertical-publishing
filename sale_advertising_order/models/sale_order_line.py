@@ -424,6 +424,23 @@ class SaleOrderLine(models.Model):
         string="Recurring Order Line",
     )
     can_edit = fields.Boolean(compute="_compute_can_edit")
+    # emulate webclient's parent variable to be able to reuse embedded form standalone
+    parent = fields.Json(compute="_compute_parent")
+
+    def _compute_parent(self):
+        for this in self:
+            this.parent = {
+                field_name: this.order_id._fields[field_name].convert_to_write(
+                    this.order_id[field_name],
+                    this.order_id,
+                )
+                for field_name in (
+                    "partner_id",
+                    "pricelist_id",
+                    "company_id",
+                    "published_customer",
+                )
+            }
 
     @api.model
     def default_get(self, fields_list):
