@@ -259,6 +259,7 @@ class SaleOrderLine(models.Model):
                                     "in",
                                     ATpavIds,
                                 ),
+                                ('active', '=', True),
                             ]
                         )
                         .mapped("product_tmpl_id")
